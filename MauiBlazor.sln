@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 25.0.1706.8
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MauiBlazor.Mobile", "MauiBlazor.Mobile\MauiBlazor.Mobile.csproj", "{A96A9E6C-8274-45A0-8277-70A080C5B44C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MauiBlazor.Api", "MauiBlazor.Api\MauiBlazor.Api.csproj", "{0FF722C2-E3FE-4D6D-99DE-E2CC7EE7E017}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MauiBlazor.Shared", "MauiBlazor.Shared\MauiBlazor.Shared.csproj", "{4D09A875-8EE8-423A-9679-B15AD521454E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A96A9E6C-8274-45A0-8277-70A080C5B44C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A96A9E6C-8274-45A0-8277-70A080C5B44C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A96A9E6C-8274-45A0-8277-70A080C5B44C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A96A9E6C-8274-45A0-8277-70A080C5B44C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FF722C2-E3FE-4D6D-99DE-E2CC7EE7E017}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FF722C2-E3FE-4D6D-99DE-E2CC7EE7E017}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FF722C2-E3FE-4D6D-99DE-E2CC7EE7E017}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FF722C2-E3FE-4D6D-99DE-E2CC7EE7E017}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D09A875-8EE8-423A-9679-B15AD521454E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D09A875-8EE8-423A-9679-B15AD521454E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D09A875-8EE8-423A-9679-B15AD521454E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D09A875-8EE8-423A-9679-B15AD521454E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0A356E0E-E5C0-4D80-AF12-3074FE9FBDD1}
+	EndGlobalSection
+EndGlobal

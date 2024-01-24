@@ -1,0 +1,77 @@
+﻿@page "/add"
+
+@using MauiBlazor.Shared.Models;
+@using MauiBlazor.Mobile.Data;
+
+@using CommunityToolkit.Maui.Core;
+
+<h3>Card Form</h3>
+
+@*@if (IsSubmitted)
+    {
+        <p>Form submitted successfully!</p>
+    }*@
+
+<EditForm Model="@cardModel" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+
+    <div class="form-group">
+        <label for="DisplayName">Display Name:</label>
+        <InputText id="DisplayName" @bind-Value="cardModel.DisplayName" class="form-control" />
+        <ValidationMessage For="@(() => cardModel.DisplayName)" />
+    </div>
+
+    <div class="form-group">
+        <label for="JobTitle">Job Title:</label>
+        <InputText id="JobTitle" @bind-Value="cardModel.JobTitle" class="form-control" />
+        <ValidationMessage For="@(() => cardModel.JobTitle)" />
+    </div>
+
+    <div class="form-group">
+        <label for="Phone">Phone:</label>
+        <InputText id="Phone" @bind-Value="cardModel.Phone" class="form-control" />
+        <ValidationMessage For="@(() => cardModel.Phone)" />
+    </div>
+
+    <div class="form-group">
+        <label for="Mail">Mail:</label>
+        <InputText id="Mail" @bind-Value="cardModel.Mail" class="form-control" />
+        <ValidationMessage For="@(() => cardModel.Mail)" />
+    </div>
+
+    <div class="form-group">
+        <label for="WebsiteUrl">Website URL:</label>
+        <InputText id="WebsiteUrl" @bind-Value="cardModel.WebsiteUrl" class="form-control" />
+        <ValidationMessage For="@(() => cardModel.WebsiteUrl)" />
+    </div>
+
+    <div class="form-group">
+        <label for="Address">Address:</label>
+        <InputText id="Address" @bind-Value="cardModel.Address" class="form-control" />
+        <ValidationMessage For="@(() => cardModel.Address)" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</EditForm>
+
+@code {
+    private CardService _cardService = new CardService(); // Create an instance
+
+    private CardModel cardModel = new CardModel();
+    private bool IsSubmitted = false; 
+
+    protected async Task HandleValidSubmit()
+    {
+
+        ResponseModel<string> responseModel = await _cardService.AddCard(cardModel);
+
+        SemanticScreenReader.Announce(responseModel.Message);
+        await CommunityToolkit.Maui.Alerts.Toast.Make(responseModel.Message, ToastDuration.Long, 16).Show(new CancellationTokenSource().Token);
+
+        if (responseModel.Success)
+        {
+            // empty fields
+        }
+        IsSubmitted = true;
+    }
+}
