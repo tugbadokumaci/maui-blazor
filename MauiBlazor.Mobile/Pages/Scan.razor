@@ -1,8 +1,138 @@
 ﻿@page "/scan"
 
-<h1>Hello, world!</h1>
+@using MauiBlazor.Shared.Models;
+@using MauiBlazor.Mobile.Data;
+@using BlazorBarcodeScanner.ZXing.JS
 
-Welcome to your new app.
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+<style>
+    .parent {
+        position: relative;
+        top: 0;
+        left: 0;
+    }
 
+    .image1 {
+        position: relative;
+        top: 0;
+        left: 0;
+        border: 1px red solid;
+    }
+
+    .image2 {
+        position: absolute;
+        top: 30px;
+        left: 30px;
+        border: 1px green solid;
+    }
+
+    .underline-text-button {
+        background-color: #C31C4B;
+        border-color: #C31C4B;
+        text-decoration: underline;
+        text-decoration-color:
+    }
+
+    .basic-button {
+        background-color: #F2F2F7;
+        color: #322F40;
+    }
+
+    .frame {
+        background-color: #92919E;
+        border-radius: 22px;
+    }
+
+    h2 {
+        color: #322F40;
+        font-weight: bold;
+    }
+
+    h4 {
+        color: #92919E;
+        font-weight: bold;
+    }
+</style>
+
+@if (pageStatus == ScanPageStatus.StartScanStatus)
+{
+    <h1>Scan QR Code</h1>
+
+    <div class="hstack gap-3">
+        <img src="qr_preview.png" />
+        <img class="image2" src="red_outliner.png" />
+    </div>
+
+
+    <Button class="basic-button" Loading="true" LoadingText="Scanning" @onclick="GoToScanPage">Scan</Button>
+
+
+}
+else if (pageStatus == ScanPageStatus.ScanStatus)
+{
+    <BlazorBarcodeScanner.ZXing.JS.BarcodeReader Title="Scan Barcode from Camera"
+                                                 StartCameraAutomatically="false"
+                                                 ShowStart="true"
+                                                 ShowReset="true"
+                                                 ShowToggleTorch="true"
+                                                 ShowVideoDeviceList="true"
+                                                 VideoWidth="300"
+                                                 VideoHeight="200"
+                                                 OnBarcodeReceived="LocalReceivedBarcodeText" />
+    <p>
+        Did you encounter a problem while scanning QR?
+    </p>
+    <Button class="underline-text-button" @onclick="GoToManuallyAddPage">Add your card manually</Button>
+
+
+
+}
+else if (pageStatus == ScanPageStatus.ManualScanStatus)
+{
+    <div class="frame">
+        <h2>Scanned Successfully</h2>
+        <h4>"Rik Samuel Vienna" was scanned successfully.</h4>
+    </div>
+    <Button class="basic-button" Loading="true" LoadingText="Scanning" @onclick="GoToStartScanPage">Ok</Button>
+    <Button class="underline-text-button" @onclick="GoToScanPage">Scan a new card</Button>
+
+
+}
+
+
+@code{
+
+    //camera
+    private string LocalBarcodeText;
+
+    private void LocalReceivedBarcodeText(BarcodeReceivedEventArgs args)
+    {
+        this.LocalBarcodeText = args.BarcodeText;
+        StateHasChanged();
+    }
+
+    enum ScanPageStatus
+    {
+        StartScanStatus,
+        ScanStatus,
+        ManualScanStatus
+    };
+    ScanPageStatus pageStatus = ScanPageStatus.StartScanStatus;
+
+    protected async void GoToScanPage(EventArgs args)
+    {
+        //ResponseModel<string> responseModel = await CardService.SaveCardToUser()
+        pageStatus = ScanPageStatus.ScanStatus;
+    }
+    protected async void GoToManuallyAddPage(EventArgs args)
+    {
+        //ResponseModel<string> responseModel = await CardService.SaveCardToUser()
+        pageStatus = ScanPageStatus.ManualScanStatus;
+    }
+    protected async void GoToStartScanPage(EventArgs args)
+    {
+        //ResponseModel<string> responseModel = await CardService.SaveCardToUser()
+        pageStatus = ScanPageStatus.StartScanStatus;
+    }
+
+}

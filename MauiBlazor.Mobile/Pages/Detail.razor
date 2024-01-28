@@ -1,0 +1,272 @@
+﻿@page "/detail/{cardId:int}"
+
+@using QRCoder;
+@using System.IO;
+@using System.Drawing;
+
+@using Microsoft.AspNetCore.Components;
+
+@using MauiBlazor.Shared.Models;
+@using MauiBlazor.Mobile.Data;
+@using CommunityToolkit.Maui.Core;
+@using MauiBlazor.Mobile.Services;
+
+@inject NavigationManager NavigationManager;
+
+
+<style>
+    body {
+        background-color: #EFF0F4;
+    }
+</style>
+@if (pageStatus == DetailPageStatus.ShowQRStatus)
+{
+    <div>
+        <Button @onclick="() => Button_Clicked()">Click</Button>
+    </div>
+
+}
+else if (pageStatus == DetailPageStatus.EditStatus)
+{
+    <img src="user.png" />
+    <h2>@cardModel.DisplayName</h2>
+    <h3>@cardModel.JobTitle</h3>
+
+    <div class="hstack gap-3">
+        <Button style="background-color: #fff; color:black;" @onclick="() => Emit(DetailPageStatus.ShowQRStatus)">Show QR</Button>
+        <Button style="background-color: #fff; color:black;" @onclick="() => Emit(DetailPageStatus.EditStatus)">Edit</Button>
+        <Button style="background-color: #FFBEBE; color: #FF0000" @onclick="DeleteButtonClicked">Delete</Button>
+
+    </div>
+
+    @*<div class="frame" style="background-color:#fff;">
+
+            <div class="vstack-gap-3">
+                <h3>Phone</h3>
+                <input value="@IsEditEnabled" type="text" placeholder="@cardModel.Phone" />
+
+                <h3>Mail</h3>
+                <input value="@IsEditEnabled" type="text" placeholder="@cardModel.Mail" />
+
+                <h3>Address</h3>
+                <input value="@IsEditEnabled" type="text" placeholder="@cardModel.Address" />
+
+            </div>
+        </div>*@
+
+    <EditForm Model="@cardModel" OnValidSubmit="EditButtonClicked">
+        <input type="text" value="@cardModel.DisplayName" />
+        <button type="submit">Save</button>
+    </EditForm>
+
+    <Button>Save</Button>
+
+}
+else if (pageStatus == DetailPageStatus.CardDetailStatus)
+{
+    <img src="user.png" />
+    <h2>@cardModel.DisplayName</h2>
+    <h3>@cardModel.JobTitle</h3>
+
+    <div class="hstack gap-3">
+        <Button style="background-color: #fff; color:black;" @onclick="() => Emit(DetailPageStatus.ShowQRStatus)">Show QR</Button>
+        <Button style="background-color: #fff; color:black;" @onclick="() => Emit(DetailPageStatus.EditStatus)">Edit</Button>
+        <Button style="background-color: #FFBEBE; color: #FF0000" @onclick="DeleteButtonClicked">Delete</Button>
+
+    </div>
+
+    <div class="frame" style="background-color:#fff;">
+
+        <div class="vstack-gap-3">
+            <h3>Phone</h3>
+            <h4>@cardModel.Phone</h4>
+
+            <h3>Mail</h3>
+            <h4>@cardModel.Mail</h4>
+
+            <h3>Address</h3>
+            <h4>@cardModel.Address</h4>
+
+        </div>
+    </div>
+
+}
+
+
+@code{
+    //string InputText { get; set; }
+    //string QRCodeStr { get; set; }
+
+    //public void GenerateQRCode()
+    //{
+
+    //    QRCodeStr = "";
+    //    if (!string.IsNullOrEmpty(InputText))
+    //    {
+    //        using (MemoryStream ms = new MemoryStream())
+    //        {
+    //            QRCodeGenerator qrGenerator = new QRCodeGenerator();
+    //            QRCodeData qrCodeData = qrGenerator.CreateQrCode(InputText, QRCodeGenerator.ECCLevel.L);
+    //            PngByteQRCode qRCode = new PngByteQRCode(qrCodeData);
+    //            using (BitMap bitMap )
+
+
+    //        }
+    //    }
+    //}
+
+    //string qrDetected = string.Empty;
+
+    //protected override Task OnInitializedAsync()
+    //{
+    //    qrCodeReader.QRCompletedEvent += new QRCodeService.QRCompleted(QRDetected);
+    //    return base.OnInitializedAsync();
+    //}
+
+
+
+    //public async Task QRDetected(string value)
+    //{
+    //    qrDetected = value;
+    //    StateHasChanged();
+    //}
+
+    //async Task Scan()
+    //{
+    //    await qrCodeReader.Scan();
+    //}
+
+    //async Task Stop()
+    //{
+    //    await qrCodeReader.Stop();
+    //}
+
+
+    //[Inject] IJSRuntime JSRuntime { get; set; }
+
+    //private string inputText;
+    //private string qrImageSource = string.Empty;
+
+
+    //protected override void OnInitialized()
+    //{
+    //    // Ensure QRCoder library is available in the BlazorWebView
+    //    JSRuntime.InvokeVoidAsync("initQRCoder");
+    //}
+
+    //private async Task GenerateQRCode()
+    //{
+    //    QRCodeGenerator qrGenerator = new QRCodeGenerator();
+    //    QRCodeData qrCodeData = qrGenerator.CreateQrCode(inputText, QRCodeGenerator.ECCLevel.L);
+    //    PngByteQRCode qRCode = new PngByteQRCode(qrCodeData);
+    //    byte[] qrCodeBytes = qRCode.GetGraphic(20);
+
+    //    // Convert byte array to base64-encoded string for image source
+    //    qrImageSource = Convert.ToBase64String(qrCodeBytes);
+    //    StateHasChanged();
+    //}
+
+    //private void OnGenerateClicked(object sender, EventArgs e)
+    //{
+    //    Bitmap qrCodeImage;
+    //    QRCodeGenerator qrGenerator = new QRCodeGenerator();
+    //    QRCodeData qrCodeData = qrGenerator.CreateQrCode("tugba", QRCodeGenerator.ECCLevel.L);
+    //    PngByteQRCode qRCode = new PngByteQRCode(qrCodeData);
+    //    byte[] qrCodeBytes = qRCode.GetGraphic(20);
+    //    QrCodeImage.Source = ImageSource.FromStream(() => new MemoryStream(qrCodeBytes));
+    //}
+
+
+
+    protected bool IsEditEnabled { get; set; }
+
+    public enum DetailPageStatus
+    {
+        CardDetailStatus,
+        ShowQRStatus,
+        EditStatus,
+        ErrorStatus,
+        LoadingStatus
+    };
+
+    CardModel cardModel;
+
+    [Parameter]
+    public int cardId { get; set; }
+
+
+    DetailPageStatus pageStatus = DetailPageStatus.LoadingStatus;
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        ResponseModel<CardModel> responseModel = await CardService.GetCardDetailByCardId(cardId);
+        SemanticScreenReader.Announce(responseModel.Message);
+        await CommunityToolkit.Maui.Alerts.Toast.Make(responseModel.Message, ToastDuration.Long, 16).Show(new CancellationTokenSource().Token);
+
+        if (responseModel.Success)
+        {
+            cardModel = responseModel.Data;
+            pageStatus = DetailPageStatus.CardDetailStatus;
+
+        }
+        else
+        {
+            pageStatus = DetailPageStatus.ErrorStatus;
+        }
+
+    }
+
+    protected void Emit(DetailPageStatus detailPageStatus)
+    {
+        pageStatus = detailPageStatus;
+    }
+
+    protected async void DeleteButtonClicked()
+    {
+        CardService cardService = new CardService();
+        ResponseModel<string> responseModel = await cardService.DeleteCard(cardModel);
+
+        if (responseModel.Success)
+        {
+            SemanticScreenReader.Announce("Card deleted.");
+            await CommunityToolkit.Maui.Alerts.Toast.Make("Card deleted.", ToastDuration.Long, 16).Show(new CancellationTokenSource().Token);
+            NavigationManager.NavigateTo("/");
+
+        }
+        else
+        {
+            SemanticScreenReader.Announce("Error occured while deleting card: " + responseModel.Message);
+            await CommunityToolkit.Maui.Alerts.Toast.Make("Error occured while deleting card: " + responseModel.Message, ToastDuration.Long, 16).Show(new CancellationTokenSource().Token);
+
+        }
+    }
+
+    protected async void EditButtonClicked()
+    {
+        CardService cardService = new CardService();
+        ResponseModel<string> responseModel = await cardService.UpdateCard(cardModel);
+
+        if (responseModel.Success)
+        {
+            SemanticScreenReader.Announce("Card updated.");
+            await CommunityToolkit.Maui.Alerts.Toast.Make("Card updated.", ToastDuration.Long, 16).Show(new CancellationTokenSource().Token);
+            NavigationManager.NavigateTo("/");
+
+        }
+        else
+        {
+            SemanticScreenReader.Announce("Error occured while updating card: " + responseModel.Message);
+            await CommunityToolkit.Maui.Alerts.Toast.Make("Error occured while updating card: " + responseModel.Message, ToastDuration.Long, 16).Show(new CancellationTokenSource().Token);
+
+        }
+    }
+    protected async void Button_Clicked()
+    {
+        NavigationManager.NavigateTo("/saved");
+
+    }
+
+
+}
+

@@ -1,0 +1,55 @@
+﻿    .main-container {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .left-column {
+        flex: 1;
+        padding-right: 20px; /* Adjust the spacing between columns */
+    }
+
+    .right-column {
+        flex: 2;
+        overflow-x: auto;
+        display: flex;
+        flex-direction: row;
+    }
+
+    .card {
+        flex: 0 0 auto;
+        margin-right: 15px; /* Adjust the spacing between cards */
+    }
+
+    .add-button {
+        margin-left: auto; /* Push the button to the end of the left column */
+        cursor: pointer;
+    }
+
+    .row-scrollable-container {
+        overflow-x: auto;
+        display: flex;
+        flex-direction: row;
+    }
+
+    .column-scrollable-container {
+        overflow-x: auto;
+        display: flex;
+        flex-direction: column;
+    }
+
+.full-screen-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff; /* Arka plan rengini ayarlayabilirsiniz */
+    z-index: 9999; /* İsteğe bağlı: Diğer öğelerin üzerine çıkması için bir z-index değeri */
+}
+
+.Button{
+    
+}

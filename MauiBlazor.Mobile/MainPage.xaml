@@ -1,15 +1,105 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<Shell xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:MauiBlazor.Mobile"
-             x:Class="MauiBlazor.Mobile.MainPage"
-             BackgroundColor="{DynamicResource PageBackgroundColor}">
+            xmlns:data="clr-namespace:MauiBlazor.Mobile.Data"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+            xmlns:pages="clr-namespace:MauiBlazor.Mobile.Pages"
 
-    <BlazorWebView x:Name="blazorWebView" HostPage="wwwroot/index.html">
+
+            x:DataType="local:App"
+            x:Class="MauiBlazor.Mobile.MainPage"
+             BackgroundColor="{DynamicResource PageBackgroundColor}"
+             NavigationPage.HasNavigationBar="True"
+             >
+
+        <TabBar>
+            <Tab Title="Home">
+                <ShellContent Title="Home">
+                    <ShellContent.ContentTemplate>
+                        <DataTemplate>
+                            <ContentPage>
+                                <BlazorWebView HostPage="wwwroot/index.html">
+                                    <BlazorWebView.RootComponents>
+                                        <RootComponent Selector="#app" ComponentType="{x:Type pages:Index}" />
+                                    </BlazorWebView.RootComponents>
+                                </BlazorWebView>
+                            </ContentPage>
+                        </DataTemplate>
+                    </ShellContent.ContentTemplate>
+                </ShellContent>
+            </Tab>
+            <Tab Title="Scan">
+                <ShellContent Title="Scan">
+                    <ShellContent.ContentTemplate>
+                        <DataTemplate>
+                            <ContentPage>
+                                <BlazorWebView HostPage="wwwroot/index.html">
+                                    <BlazorWebView.RootComponents>
+                                        <RootComponent Selector="#app" ComponentType="{x:Type pages:Scan}" />
+                                    </BlazorWebView.RootComponents>
+                                </BlazorWebView>
+                            </ContentPage>
+                        </DataTemplate>
+                    </ShellContent.ContentTemplate>
+                </ShellContent>
+            </Tab>
+            <Tab Title="Saved">
+                <ShellContent Title="Saved">
+                    <ShellContent.ContentTemplate>
+                        <DataTemplate>
+                            <ContentPage>
+                                <BlazorWebView HostPage="wwwroot/index.html">
+                                    <BlazorWebView.RootComponents>
+                                        <RootComponent Selector="#app" ComponentType="{x:Type pages:Saved}" />
+                                    </BlazorWebView.RootComponents>
+                                </BlazorWebView>
+                            </ContentPage>
+                        </DataTemplate>
+                    </ShellContent.ContentTemplate>
+                </ShellContent>
+            </Tab>
+        </TabBar>
+
+
+
+    <!--<TabbedPage.Behaviors>
+        <toolkit:StatusBarBehavior StatusBarColor="#C31C4B" StatusBarStyle="LightContent" />
+    </TabbedPage.Behaviors>-->
+
+   
+
+    <!--<BlazorWebView  HostPage="wwwroot/index.html">
         <BlazorWebView.RootComponents>
             <RootComponent Selector="#app" ComponentType="{x:Type local:Main}" />
         </BlazorWebView.RootComponents>
-    </BlazorWebView>
+    </BlazorWebView>-->
 
-</ContentPage>
+
+    <!--<ContentPage Title="Home">
+        <BlazorWebView  HostPage="wwwroot/index.html">
+            <BlazorWebView.RootComponents>
+                <RootComponent Selector="#app" ComponentType="{x:Type pages:Index}" />
+            </BlazorWebView.RootComponents>
+        </BlazorWebView>
+    </ContentPage>
+
+    <ContentPage Title="Scan">
+        <BlazorWebView  HostPage="wwwroot/index.html">
+            <BlazorWebView.RootComponents>
+                <RootComponent Selector="#app" ComponentType="{x:Type pages:Scan}" />
+            </BlazorWebView.RootComponents>
+        </BlazorWebView>
+    </ContentPage>
+
+    <ContentPage Title="Saved">
+        <BlazorWebView HostPage="wwwroot/index.html">
+            <BlazorWebView.RootComponents>
+                <RootComponent Selector="#app" ComponentType="{x:Type pages:Saved}" />
+            </BlazorWebView.RootComponents>
+        </BlazorWebView>
+    </ContentPage>-->
+
+</Shell>
+
 

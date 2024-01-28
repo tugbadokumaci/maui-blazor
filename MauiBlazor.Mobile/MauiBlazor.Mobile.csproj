@@ -34,12 +34,15 @@
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
       <CreatePackage>false</CreatePackage>
     </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-ios|AnyCPU'">
+      <CreatePackage>false</CreatePackage>
+    </PropertyGroup>
     <ItemGroup>
         <!-- App Icon -->
         <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
 
         <!-- Splash Screen -->
-        <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
+        <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#fff" BaseSize="200,200" />
 
         <!-- Images -->
         <MauiImage Include="Resources\Images\*" />
@@ -55,8 +58,14 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-        <PackageReference Include="CommunityToolkit.Maui" Version="6.1.0" />
         <PackageReference Include="Blazor.Bootstrap" Version="1.10.5" />
+        <PackageReference Include="SkiaSharp.Extended.UI.Maui" Version="2.0.0-preview.86" />
+        <PackageReference Include="BlazorBarcodeScanner.ZXing.JS" Version="1.0.4" />
+        <PackageReference Include="QRCoderNetCore" Version="1.0.0" />
+        <PackageReference Include="QRCoder" Version="1.4.1" />
+        <PackageReference Include="ZXing.Net.Maui.Controls" Version="0.4.0" />
+        <PackageReference Include="Camera.MAUI" Version="1.4.4" />
+        <PackageReference Include="CommunityToolkit.Maui" Version="6.1.0" />
     </ItemGroup>
 
     <ItemGroup>
@@ -78,6 +87,16 @@
       <None Remove="Resources\Images\sample_capture.png" />
       <None Remove="Resources\Images\ok.png" />
       <None Remove="Services\" />
+      <None Remove="Resources\Fonts\Inter-Black.ttf" />
+      <None Remove="Resources\Fonts\Inter-Bold.ttf" />
+      <None Remove="Resources\Fonts\Inter-ExtraBold.ttf" />
+      <None Remove="Resources\Fonts\Inter-ExtraLight.ttf" />
+      <None Remove="Resources\Fonts\Inter-Light.ttf" />
+      <None Remove="Resources\Fonts\Inter-Medium.ttf" />
+      <None Remove="Resources\Fonts\Inter-Regular.ttf" />
+      <None Remove="Resources\Fonts\Inter-SemiBold.ttf" />
+      <None Remove="Resources\Fonts\Inter-Thin.ttf" />
+      <None Remove="MauiPages\" />
     </ItemGroup>
     <ItemGroup>
       <BundleResource Include="Resources\Images\user.png" />
@@ -94,9 +113,20 @@
       <BundleResource Include="Resources\Images\saved.png" />
       <BundleResource Include="Resources\Images\sample_capture.png" />
       <BundleResource Include="Resources\Images\ok.png" />
+      <BundleResource Include="Resources\Fonts\Inter-Black.ttf" />
+      <BundleResource Include="Resources\Fonts\Inter-Bold.ttf" />
+      <BundleResource Include="Resources\Fonts\Inter-ExtraBold.ttf" />
+      <BundleResource Include="Resources\Fonts\Inter-ExtraLight.ttf" />
+      <BundleResource Include="Resources\Fonts\Inter-Light.ttf" />
+      <BundleResource Include="Resources\Fonts\Inter-Medium.ttf" />
+      <BundleResource Include="Resources\Fonts\Inter-Regular.ttf" />
+      <BundleResource Include="Resources\Fonts\Inter-SemiBold.ttf" />
+      <BundleResource Include="Resources\Fonts\Inter-Thin.ttf" />
+      <BundleResource Include="Resources\Raw\loading.json" />
     </ItemGroup>
     <ItemGroup>
       <Folder Include="Services\" />
+      <Folder Include="MauiPages\" />
     </ItemGroup>
     <ItemGroup>
       <Compile Update="Services\ICardService.cs">
@@ -104,5 +134,8 @@
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       </Compile>
+    </ItemGroup>
+    <ItemGroup>
+      <Content Remove="Resources\Raw\loading.json" />
     </ItemGroup>
 </Project>

@@ -5,72 +5,34 @@
 @using MauiBlazor.Mobile.Data;
 @using CommunityToolkit.Maui.Core;
 
-
 @inject HttpClient HttpClient
+@inject NavigationManager NavigationManager
 
 <PageTitle>Home</PageTitle>
 
-<style>
-    .main-container {
-        display: flex;
-        flex-direction: row;
-    }
-
-    .left-column {
-        flex: 1;
-        padding-right: 20px; /* Adjust the spacing between columns */
-    }
-
-    .right-column {
-        flex: 2;
-        overflow-x: auto;
-        display: flex;
-        flex-direction: row;
-    }
-
-    .card {
-        flex: 0 0 auto;
-        margin-right: 15px; /* Adjust the spacing between cards */
-    }
-
-    .add-button {
-        margin-left: auto; /* Push the button to the end of the left column */
-        cursor: pointer;
-    }
-
-    .row-scrollable-container {
-        overflow-x: auto;
-        display: flex;
-        flex-direction: row;
-    }
-
-    .column-scrollable-container {
-        overflow-x: auto;
-        display: flex;
-        flex-direction: column;
-    }
-</style>
 @if (_cardList == null)
 {
-    <p>Loading ..</p>
+
+    @*<p>Loading ..</p>*@
+
+
+    @(new MarkupString($@"<script src=""https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs"" type=""module""></script>"))
+    <div class="full-screen-container">
+
+        <dotlottie-player src="https://lottie.host/69531b5b-e989-4b1d-b26e-28c934bf467e/nqTskbP4j9.json" background="transparent" speed="1" style="width: 300px; height: 300px;" loop autoplay></dotlottie-player>
+
+    </div>
 }
 else
 {
-    <div class="main-container">
-        <div class="left-column">
-            <h1>My Cards</h1>
-        </div>
-        <div class="right-column">
-            <a class="add-button" href="/add">
-                <img src="add.png" alt="Add" width="40" height="40" />
-            </a>
-        </div>
-    </div>
+    <h1 style="float; left;">My Cards</h1>
+    <img style="float; right;" src="add.png" alt="Add" width="40" height="40" @onclick="() => GoToAddCardPage()" />
+
 
     <div class="row-scrollable-container">
         @foreach (CardModel card in _cardList)
         {
-            <div class="card">
+            <div class="card" @onclick="@(() => CardDetailClicked(@card.Id))">
                 <div class="card-body">
                     <h5 class="card-title">@card.DisplayName</h5>
                     <p class="card-text">@card.JobTitle</p>
@@ -85,7 +47,7 @@ else
     <div class="column-scrollable-container">
         @foreach (CardModel card in _cardList)
         {
-            <div class="card">
+            <div class="card" @onclick="@(() => CardDetailClicked(@card.Id))">
                 <div class="card-body">
                     <h5 class="card-title">@card.DisplayName</h5>
                     <p class="card-text">@card.JobTitle</p>
@@ -111,4 +73,16 @@ else
 
         }
     }
+
+    protected void CardDetailClicked(int cardId)
+    {
+        NavigationManager.NavigateTo("/detail/" + cardId);
+    }
+
+    protected void GoToAddCardPage()
+    {
+        NavigationManager.NavigateTo("/add");
+    }
+
+
 }

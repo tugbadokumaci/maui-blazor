@@ -10,4 +10,5 @@ public interface ICardService
   Task<ResponseModel<string>> DeleteCard(CardModel cardModel);
   Task<ResponseModel<CardModel>> GetCardDetailByCardId(int cardId);
   Task<ResponseModel<List<CardModel>>> GetSavedCardsByUserId();
+  Task<ResponseModel<string>> SaveCardToUser(int cardId);
 }

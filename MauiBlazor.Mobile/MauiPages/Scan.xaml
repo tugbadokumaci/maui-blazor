@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiBlazor.Mobile.MauiPages.ScanPage"
+             Title="ScanPage"
+             xmlns:zxing="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.MAUI.Controls"
+             xmlns:zxingoptions="clr-namespace:ZXing.Net.Maui;assembly=ZXing.Net.MAUI"
+             xmlns:mauipages="clr-namespace:MauiBlazor.Mobile.MauiPages"
+
+             x:DataType="mauipages:ScanPage"
+             >
+
+    <VerticalStackLayout>
+        <Label 
+            Text="Welcome to .NET MAUI!"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+        <Button Text="Maui with xaml"></Button>
+
+            <zxing:CameraBarcodeReaderView
+        x:Name="scanner"
+        IsDetecting="true">
+
+        <zxing:CameraBarcodeReaderView.Options>
+             <zxingoptions:BarcodeReaderOptions AutoRotate="true"/>
+        </zxing:CameraBarcodeReaderView.Options>
+           
+
+    </zxing:CameraBarcodeReaderView>
+    </VerticalStackLayout>
+
+
+</ContentPage>
+
+

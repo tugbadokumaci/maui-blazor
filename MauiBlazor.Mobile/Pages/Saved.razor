@@ -1,8 +1,25 @@
 ﻿@page "/saved"
 
+@using MauiBlazor.Mobile.MauiPages;
+
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
 
+<Button @onclick="() => scan()">scan</Button>
+<Button @onclick="() => display()">display</Button>
 <SurveyPrompt Title="How is Blazor working for you?" />
 
+@code{
+    private async void scan()
+    {
+        Application.Current.MainPage = new ScanPage();
+
+    }
+
+    private async void display()
+    {
+        Application.Current.MainPage = new DisplayPage();
+
+    }
+}

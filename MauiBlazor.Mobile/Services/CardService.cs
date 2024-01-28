@@ -1,11 +1,8 @@
 ﻿using System.Net.Http.Headers;
 using System.Text;
-using Android.Locations;
 using System.Text.Json;
 using MauiBlazor.Shared.Models;
 using Newtonsoft.Json;
-using static Android.Graphics.ColorSpace;
-using System.Collections.Generic;
 
 namespace MauiBlazor.Mobile.Data;
 
@@ -34,7 +31,7 @@ public class CardService : ContentPage
                     returnResponse.Success = true;
                     returnResponse.Data = JsonConvert.DeserializeObject<List<CardModel>>(result);
                 }
-                    returnResponse.Message = response.StatusCode.ToString(); // return info about response 
+                returnResponse.Message = response.StatusCode.ToString(); // return info about response 
             }
         }
         catch (Exception ex)
@@ -44,7 +41,7 @@ public class CardService : ContentPage
         return returnResponse;
     }
 
-    public  async Task<ResponseModel<string>> AddCard(CardModel cardModel)
+    public async Task<ResponseModel<string>> AddCard(CardModel cardModel)
     {
 
         string userId = "00883398-4f3c-48fa-83de-722e9305b0a9"; // sampleId
@@ -74,8 +71,8 @@ public class CardService : ContentPage
                 returnResponse.Data = null;
 
             }
-          
-                returnResponse.Message = response.StatusCode.ToString(); // return info about response 
+
+            returnResponse.Message = response.StatusCode.ToString(); // return info about response 
         }
         catch (Exception ex)
         {
@@ -87,7 +84,7 @@ public class CardService : ContentPage
     }
 
 
-    public  async Task<ResponseModel<string>> DeleteCard(CardModel cardModel)
+    public async Task<ResponseModel<string>> DeleteCard(CardModel cardModel)
     {
         var returnResponse = new ResponseModel<string>();
 
@@ -107,7 +104,7 @@ public class CardService : ContentPage
             var stringContent = new StringContent(json, Encoding.UTF8, "application/json");
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-            var response = await httpClient.PutAsync($"{App.BaseUrl}/Card/updateCard/{Id}", stringContent);
+            var response = await httpClient.PutAsync($"{App.BaseUrl}/Card/updateCard/{cardModel.Id}", stringContent);
 
             if (response != null && response.IsSuccessStatusCode)
             {
@@ -115,7 +112,42 @@ public class CardService : ContentPage
                 returnResponse.Data = null;
             }
 
-                returnResponse.Message = response.StatusCode.ToString(); // return info about response 
+            returnResponse.Message = response.StatusCode.ToString(); // return info about response 
+        }
+        catch (Exception ex)
+        {
+            returnResponse.Ex = ex;
+        }
+
+        return returnResponse;
+    }
+
+    public async Task<ResponseModel<string>> UpdateCard(CardModel cardModel)
+    {
+        var returnResponse = new ResponseModel<string>();
+
+        try
+        {
+            var jsonSerializerOptions = new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase, // Use CamelCase naming policy
+                WriteIndented = true, // Optionally set this to true for indented JSON
+            };
+            var json = System.Text.Json.JsonSerializer.Serialize(cardModel, jsonSerializerOptions);
+
+            var httpClient = new HttpClient();
+            var stringContent = new StringContent(json, Encoding.UTF8, "application/json");
+            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            var response = await httpClient.PutAsync($"{App.BaseUrl}/Card/updateCard/{cardModel.Id}", stringContent);
+
+            if (response != null && response.IsSuccessStatusCode)
+            {
+                returnResponse.Success = true;
+                returnResponse.Data = null;
+            }
+
+            returnResponse.Message = response.StatusCode.ToString(); // return info about response 
         }
         catch (Exception ex)
         {
@@ -146,7 +178,7 @@ public class CardService : ContentPage
             returnResponse.Data = responseCardModel;
 
         }
-            returnResponse.Message = response.StatusCode.ToString(); // return info about response 
+        returnResponse.Message = response.StatusCode.ToString(); // return info about response 
 
         return returnResponse;
     }
@@ -199,10 +231,51 @@ public class CardService : ContentPage
                 returnResponse.Message = response.StatusCode.ToString(); // return info about response 
             }
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             returnResponse.Ex = ex;
         }
+        return returnResponse;
+    }
+
+    private static async Task<ResponseModel<string>> SaveCardToUser(int cardId)
+    {
+
+        string userId = "00883398-4f3c-48fa-83de-722e9305b0a9"; // sampleId
+        var returnResponse = new ResponseModel<string>();
+         SavedModel savedModel = new SavedModel();
+    
+        savedModel.UserId = userId; 
+        savedModel.CardId = cardId;
+
+        try
+        {
+            var jsonSerializerOptions = new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                WriteIndented = true,
+            };
+
+            var json = System.Text.Json.JsonSerializer.Serialize(savedModel, jsonSerializerOptions);
+
+            var httpClient = new HttpClient();
+            var stringContent = new StringContent(json, Encoding.UTF8, "application/json");
+            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            var response = await httpClient.PostAsync($"{App.BaseUrl}/Card/SaveCard", stringContent);
+
+            if (response != null && response.IsSuccessStatusCode)
+            {
+                returnResponse.Success = true;
+            }
+
+            returnResponse.Message = response.StatusCode.ToString(); // return info about response 
+        }
+        catch (Exception ex)
+        {
+            returnResponse.Ex = ex;
+        }
+
         return returnResponse;
     }
 
