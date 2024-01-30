@@ -3,6 +3,12 @@
 @using MauiBlazor.Shared.Models;
 @using MauiBlazor.Mobile.Data;
 @using BlazorBarcodeScanner.ZXing.JS
+@using MauiBlazor.Mobile.MauiPages;
+@using CommunityToolkit.Maui.Core;
+@using CommunityToolkit.Maui.Views;
+@using MauiBlazor.Mobile.Services;
+
+@using MauiPopup;
 
 
 <style>
@@ -30,7 +36,7 @@
         background-color: #C31C4B;
         border-color: #C31C4B;
         text-decoration: underline;
-        text-decoration-color:
+        text-decoration-color: blue;
     }
 
     .basic-button {
@@ -64,47 +70,40 @@
     </div>
 
 
-    <Button class="basic-button" Loading="true" LoadingText="Scanning" @onclick="GoToScanPage">Scan</Button>
-
+    <Button class="basic-button" @onclick="OpenScanPagePopup">Scan</Button>
+    <h3>Did you encounter a problem while scanning QR?</h3>
+    <Button @onclick="GoToManuallyAddPage">Scan Manually</Button>
 
 }
-else if (pageStatus == ScanPageStatus.ScanStatus)
+
+@if (pageStatus == ScanPageStatus.ManualScanStatus)
 {
-    <BlazorBarcodeScanner.ZXing.JS.BarcodeReader Title="Scan Barcode from Camera"
-                                                 StartCameraAutomatically="false"
-                                                 ShowStart="true"
-                                                 ShowReset="true"
-                                                 ShowToggleTorch="true"
-                                                 ShowVideoDeviceList="true"
-                                                 VideoWidth="300"
-                                                 VideoHeight="200"
-                                                 OnBarcodeReceived="LocalReceivedBarcodeText" />
-    <p>
-        Did you encounter a problem while scanning QR?
-    </p>
-    <Button class="underline-text-button" @onclick="GoToManuallyAddPage">Add your card manually</Button>
+    <div class="frame">
+        <h2>Enter business card id</h2>
+        <h4>Please enter card id</h4>
+        <InputNumber @bind-Value="@cardId" type="number" inputmode="numeric" />
 
-
-
+    </div>
+    <Button class="basic-button"  @onclick="ManuallyScanButton_Clicked" disabled="@(cardId <= 0)">Manual Scan</Button>
 }
-else if (pageStatus == ScanPageStatus.ManualScanStatus)
+else if (pageStatus == ScanPageStatus.SuccessStatus)
 {
     <div class="frame">
         <h2>Scanned Successfully</h2>
-        <h4>"Rik Samuel Vienna" was scanned successfully.</h4>
+        <h4>"@cardModel.DisplayName" was scanned successfully.</h4>
     </div>
-    <Button class="basic-button" Loading="true" LoadingText="Scanning" @onclick="GoToStartScanPage">Ok</Button>
-    <Button class="underline-text-button" @onclick="GoToScanPage">Scan a new card</Button>
-
-
+    <Button class="basic-button" @onclick="() =>GoToStartScanPage()">Ok</Button>
+    <Button class="underline-text-button" @onclick="OpenScanPagePopup">Scan a new card</Button>
 }
+
 
 
 @code{
 
     //camera
     private string LocalBarcodeText;
-
+    CardModel cardModel;
+    int cardId;
     private void LocalReceivedBarcodeText(BarcodeReceivedEventArgs args)
     {
         this.LocalBarcodeText = args.BarcodeText;
@@ -115,24 +114,56 @@ else if (pageStatus == ScanPageStatus.ManualScanStatus)
     {
         StartScanStatus,
         ScanStatus,
-        ManualScanStatus
+        ManualScanStatus,
+        SuccessStatus,
+        ErrorStatus
     };
     ScanPageStatus pageStatus = ScanPageStatus.StartScanStatus;
 
-    protected async void GoToScanPage(EventArgs args)
+    private async void OpenScanPagePopup()
     {
-        //ResponseModel<string> responseModel = await CardService.SaveCardToUser()
-        pageStatus = ScanPageStatus.ScanStatus;
+        //Application.Current.MainPage = new ScanPage();
+        //var popup = new ScanPage();
+        //onNa(popup);
+        //var result =await  Application.Current.MainPage.ShowPopupAsync(new MauiPages.ScanPage());
+        //this.ShowPopup(new ScanPage());
+        //ScanPage scanPage = new ScanPage();
+        //Page current_page = Shell.Current.Navigation.NavigationStack.LastOrDefault();
+        //if (current_page == null)
+        //    current_page = Shell.Current.CurrentPage;
+        //PopupExtensions.ShowPopup<ScanPage>(Scan, scanPage);
+
+        //var result = this.ShowPopupAsync(new ScanPage());
+        //this.ShowPopup(new ScanPage());
+        PopupAction.DisplayPopup(new MauiBlazor.Mobile.MauiPages.ScanPage());
+
     }
-    protected async void GoToManuallyAddPage(EventArgs args)
+    protected async void GoToManuallyAddPage()
     {
-        //ResponseModel<string> responseModel = await CardService.SaveCardToUser()
         pageStatus = ScanPageStatus.ManualScanStatus;
     }
-    protected async void GoToStartScanPage(EventArgs args)
+    protected async void GoToStartScanPage()
     {
         //ResponseModel<string> responseModel = await CardService.SaveCardToUser()
         pageStatus = ScanPageStatus.StartScanStatus;
     }
+    protected async void ManuallyScanButton_Clicked()
+    {
+        ResponseModel<string> responseModel = await CardService.SaveCardToUser(cardId);
+        ResponseModel<CardModel> responseModel1 = await CardService.GetCardDetailByCardId(cardId);
 
+        SemanticScreenReader.Announce(responseModel.Message);
+        await CommunityToolkit.Maui.Alerts.Toast.Make(responseModel.Message, ToastDuration.Long, 16).Show(new CancellationTokenSource().Token);
+
+        if (responseModel.Success && responseModel1.Success)
+        {
+            cardModel = responseModel1.Data;
+            pageStatus = ScanPageStatus.SuccessStatus;
+
+        }
+        else
+        {
+            pageStatus = ScanPageStatus.ErrorStatus;
+        }
+    }
 }

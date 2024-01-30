@@ -45,14 +45,24 @@
         <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#fff" BaseSize="200,200" />
 
         <!-- Images -->
-        <MauiImage Include="Resources\Images\*" />
-        <MauiImage Update="Resources\Images\dotnet_bot.svg" BaseSize="168,208" />
-
-        <!-- Custom Fonts -->
         <MauiFont Include="Resources\Fonts\*" />
 
         <!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
         <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+        <MauiImage Include="wwwroot\Images\add.png" />
+        <MauiImage Include="wwwroot\Images\back.png" />
+        <MauiImage Include="wwwroot\Images\home_full.png" />
+        <MauiImage Include="wwwroot\Images\home.png" />
+        <MauiImage Include="wwwroot\Images\ok.png" />
+        <MauiImage Include="wwwroot\Images\qr_preview.png" />
+        <MauiImage Include="wwwroot\Images\red_outliner.png" />
+        <MauiImage Include="wwwroot\Images\right_red_arrow.png" />
+        <MauiImage Include="wwwroot\Images\sample_capture.png" />
+        <MauiImage Include="wwwroot\Images\saved_full.png" />
+        <MauiImage Include="wwwroot\Images\saved.png" />
+        <MauiImage Include="wwwroot\Images\scan.png" />
+        <MauiImage Include="wwwroot\Images\share.png" />
+        <MauiImage Include="wwwroot\Images\user.png" />
     </ItemGroup>
 
     <ItemGroup>
@@ -66,26 +76,13 @@
         <PackageReference Include="ZXing.Net.Maui.Controls" Version="0.4.0" />
         <PackageReference Include="Camera.MAUI" Version="1.4.4" />
         <PackageReference Include="CommunityToolkit.Maui" Version="6.1.0" />
+        <PackageReference Include="Plugin.Maui.Popup" Version="1.0.5" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\MauiBlazor.Shared\MauiBlazor.Shared.csproj" />
     </ItemGroup>
     <ItemGroup>
-      <None Remove="Resources\Images\user.png" />
-      <None Remove="Resources\Images\share.png" />
-      <None Remove="Resources\Images\back.png" />
-      <None Remove="Resources\Images\home_full.png" />
-      <None Remove="Resources\Images\saved_full.png" />
-      <None Remove="Resources\Images\scan.png" />
-      <None Remove="Resources\Images\right_red_arrow.png" />
-      <None Remove="Resources\Images\add.png" />
-      <None Remove="Resources\Images\qr_preview.png" />
-      <None Remove="Resources\Images\red_outliner.png" />
-      <None Remove="Resources\Images\home.png" />
-      <None Remove="Resources\Images\saved.png" />
-      <None Remove="Resources\Images\sample_capture.png" />
-      <None Remove="Resources\Images\ok.png" />
       <None Remove="Services\" />
       <None Remove="Resources\Fonts\Inter-Black.ttf" />
       <None Remove="Resources\Fonts\Inter-Bold.ttf" />
@@ -99,20 +96,6 @@
       <None Remove="MauiPages\" />
     </ItemGroup>
     <ItemGroup>
-      <BundleResource Include="Resources\Images\user.png" />
-      <BundleResource Include="Resources\Images\share.png" />
-      <BundleResource Include="Resources\Images\back.png" />
-      <BundleResource Include="Resources\Images\home_full.png" />
-      <BundleResource Include="Resources\Images\saved_full.png" />
-      <BundleResource Include="Resources\Images\scan.png" />
-      <BundleResource Include="Resources\Images\right_red_arrow.png" />
-      <BundleResource Include="Resources\Images\add.png" />
-      <BundleResource Include="Resources\Images\qr_preview.png" />
-      <BundleResource Include="Resources\Images\red_outliner.png" />
-      <BundleResource Include="Resources\Images\home.png" />
-      <BundleResource Include="Resources\Images\saved.png" />
-      <BundleResource Include="Resources\Images\sample_capture.png" />
-      <BundleResource Include="Resources\Images\ok.png" />
       <BundleResource Include="Resources\Fonts\Inter-Black.ttf" />
       <BundleResource Include="Resources\Fonts\Inter-Bold.ttf" />
       <BundleResource Include="Resources\Fonts\Inter-ExtraBold.ttf" />
@@ -127,6 +110,7 @@
     <ItemGroup>
       <Folder Include="Services\" />
       <Folder Include="MauiPages\" />
+      <Folder Include="wwwroot\images\" />
     </ItemGroup>
     <ItemGroup>
       <Compile Update="Services\ICardService.cs">
@@ -137,5 +121,24 @@
     </ItemGroup>
     <ItemGroup>
       <Content Remove="Resources\Raw\loading.json" />
+      <Content Remove="wwwroot\Images\add.png" />
+      <Content Remove="wwwroot\Images\back.png" />
+      <Content Remove="wwwroot\Images\dotnet_bot.svg" />
+      <Content Remove="wwwroot\Images\home_full.png" />
+      <Content Remove="wwwroot\Images\home.png" />
+      <Content Remove="wwwroot\Images\ok.png" />
+      <Content Remove="wwwroot\Images\qr_preview.png" />
+      <Content Remove="wwwroot\Images\red_outliner.png" />
+      <Content Remove="wwwroot\Images\right_red_arrow.png" />
+      <Content Remove="wwwroot\Images\sample_capture.png" />
+      <Content Remove="wwwroot\Images\saved_full.png" />
+      <Content Remove="wwwroot\Images\saved.png" />
+      <Content Remove="wwwroot\Images\scan.png" />
+      <Content Remove="wwwroot\Images\share.png" />
+      <Content Remove="wwwroot\Images\user.png" />
+      <Content Remove="wwwroot\images\" />
+    </ItemGroup>
+    <ItemGroup>
+      <None Include="wwwroot\Images\dotnet_bot.svg" />
     </ItemGroup>
 </Project>

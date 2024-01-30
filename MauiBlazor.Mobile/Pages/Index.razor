@@ -26,15 +26,15 @@
 else
 {
     <h1 style="float; left;">My Cards</h1>
-    <img style="float; right;" src="add.png" alt="Add" width="40" height="40" @onclick="() => GoToAddCardPage()" />
-
+    <img style="float; right;" class ="img" src="images/add.png" alt="Add" width="40" height="40" @onclick="@(() => NavigationManager.NavigateTo("/add", forceLoad: true))" />
+    <NavLink href="/add">add</NavLink>
 
     <div class="row-scrollable-container">
         @foreach (CardModel card in _cardList)
         {
             <div class="card" @onclick="@(() => CardDetailClicked(@card.Id))">
                 <div class="card-body">
-                    <h5 class="card-title">@card.DisplayName</h5>
+                    <h5 class="card-title" >@card.DisplayName</h5>
                     <p class="card-text">@card.JobTitle</p>
                     <p class="card-text"><small class="text-muted">@card.Phone</small></p>
                 </div>
@@ -72,17 +72,39 @@ else
             _cardList = responseModel.Data;
 
         }
+        //NavigationManager.LocationChanged += HandleLocationChanged;
+
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        // This event will fire when the parameters change
+        // Put your code here.  
+
     }
 
     protected void CardDetailClicked(int cardId)
     {
-        NavigationManager.NavigateTo("/detail/" + cardId);
+
+        NavigationManager.NavigateTo("/detail/" + cardId, forceLoad: true);
     }
 
     protected void GoToAddCardPage()
     {
-        NavigationManager.NavigateTo("/add");
+        NavigationManager.NavigateTo("/add", forceLoad: true);
     }
+
+    //private void HandleLocationChanged(object sender, LocationChangedEventArgs e)
+    //{
+    //    // rerender component
+    //    StateHasChanged();
+    //}
+
+    //public void Dispose()
+    //{
+    //    // remove from the NavigationManager event
+    //    NavigationManager.LocationChanged -= HandleLocationChanged;
+    //}
 
 
 }

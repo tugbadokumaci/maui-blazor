@@ -15,11 +15,15 @@
         flex-direction: row;
     }
 
-    .card {
-        flex: 0 0 auto;
-        margin-right: 15px; /* Adjust the spacing between cards */
-    }
-
+.card {
+    flex: 1 0 80%;
+    margin-right: 15px;
+    margin-bottom: 15px; /* Add vertical padding */
+    background-color: #E3E7A0;
+    perspective: 1px;
+    border-radius: 15px; /* Set border radius */
+    padding: 15px; /* Add padding on all sides */
+}
     .add-button {
         margin-left: auto; /* Push the button to the end of the left column */
         cursor: pointer;

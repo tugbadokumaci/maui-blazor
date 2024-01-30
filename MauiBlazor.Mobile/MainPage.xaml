@@ -1,19 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<Shell xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<TabbedPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:MauiBlazor.Mobile"
             xmlns:data="clr-namespace:MauiBlazor.Mobile.Data"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
             xmlns:pages="clr-namespace:MauiBlazor.Mobile.Pages"
 
-
             x:DataType="local:App"
             x:Class="MauiBlazor.Mobile.MainPage"
-             BackgroundColor="{DynamicResource PageBackgroundColor}"
              NavigationPage.HasNavigationBar="True"
              >
 
-        <TabBar>
+
+
+        <!--<TabBar>
             <Tab Title="Home">
                 <ShellContent Title="Home">
                     <ShellContent.ContentTemplate>
@@ -59,7 +59,7 @@
                     </ShellContent.ContentTemplate>
                 </ShellContent>
             </Tab>
-        </TabBar>
+        </TabBar>-->
 
 
 
@@ -76,7 +76,7 @@
     </BlazorWebView>-->
 
 
-    <!--<ContentPage Title="Home">
+    <ContentPage Title="Home">
         <BlazorWebView  HostPage="wwwroot/index.html">
             <BlazorWebView.RootComponents>
                 <RootComponent Selector="#app" ComponentType="{x:Type pages:Index}" />
@@ -98,8 +98,8 @@
                 <RootComponent Selector="#app" ComponentType="{x:Type pages:Saved}" />
             </BlazorWebView.RootComponents>
         </BlazorWebView>
-    </ContentPage>-->
+    </ContentPage>
 
-</Shell>
+</TabbedPage>
 
 

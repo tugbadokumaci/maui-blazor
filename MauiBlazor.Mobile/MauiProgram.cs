@@ -16,6 +16,7 @@ public static class MauiProgram
 		
 builder.UseMauiApp<App>().UseMauiCommunityToolkit()
                          .UseBarcodeReader()
+                         
 
             .UseSkiaSharp()
             .ConfigureFonts(fonts =>
@@ -33,7 +34,9 @@ builder.UseMauiApp<App>().UseMauiCommunityToolkit()
                 fonts.AddFont("Inter-Thin.ttf", "InterThin");
             });
 
-		builder.Services.AddMauiBlazorWebView();
+       
+        builder.Services.AddMauiBlazorWebView();
+        
 
 #if DEBUG
 		builder.Services.AddBlazorWebViewDeveloperTools();

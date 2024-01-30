@@ -1,10 +1,16 @@
-﻿namespace MauiBlazor.Mobile;
+﻿using CommunityToolkit.Maui.Views;
+using MauiBlazor.Mobile.MauiPages;
 
-public partial class MainPage : Shell
+namespace MauiBlazor.Mobile;
+
+public partial class MainPage 
 {
 	public MainPage()
 	{
         InitializeComponent();
-	}
+
+        
+
+    }
 }
 

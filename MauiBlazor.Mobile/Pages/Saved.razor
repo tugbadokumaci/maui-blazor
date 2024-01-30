@@ -1,4 +1,6 @@
 ﻿@page "/saved"
+@inject NavigationManager NavigationManager
+
 
 @using MauiBlazor.Mobile.MauiPages;
 
@@ -13,13 +15,15 @@ Welcome to your new app.
 @code{
     private async void scan()
     {
-        Application.Current.MainPage = new ScanPage();
+        //Application.Current.MainPage = new ScanPage();
 
     }
 
     private async void display()
     {
-        Application.Current.MainPage = new DisplayPage();
+        //Application.Current.MainPage = new DisplayPage();
+        NavigationManager.NavigateTo("/add");
+
 
     }
 }

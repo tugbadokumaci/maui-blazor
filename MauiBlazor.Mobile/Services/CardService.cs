@@ -184,7 +184,7 @@ public class CardService : ContentPage
     }
 
 
-    private static async Task<ResponseModel<List<CardModel>>> GetSavedCardsByUserId()
+    public static async Task<ResponseModel<List<CardModel>>> GetSavedCardsByUserId()
     {
         string userId = "00883398-4f3c-48fa-83de-722e9305b0a9"; // sampleId
         var returnResponse = new ResponseModel<List<CardModel>>();
@@ -238,7 +238,7 @@ public class CardService : ContentPage
         return returnResponse;
     }
 
-    private static async Task<ResponseModel<string>> SaveCardToUser(int cardId)
+    public static async Task<ResponseModel<string>> SaveCardToUser(int cardId)
     {
 
         string userId = "00883398-4f3c-48fa-83de-722e9305b0a9"; // sampleId
