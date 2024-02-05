@@ -4,17 +4,40 @@
 @using Newtonsoft.Json;
 @using MauiBlazor.Mobile.Data;
 @using CommunityToolkit.Maui.Core;
+@using MauiBlazor.Mobile.Shared;
+@using MauiBlazor.Mobile.Services;
+@using Blazored.LocalStorage;
 
 @inject HttpClient HttpClient
 @inject NavigationManager NavigationManager
+@inject LocalService localService
 
-<PageTitle>Home</PageTitle>
+<style>
+    .indicator-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: center; /* Center the items horizontally */
+        align-items: center;
+    }
+
+    /* Your indicator styles */
+    .indicator-circle {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: #CCCCCC; /* Light gray as the default color */
+        margin: 5px; /* Adjust margin as needed */
+    }
+
+    .selected-indicator {
+        background-color: #555555; /* Dark gray as the color for the selected (visible) state */
+    }
+</style>
+
+
 
 @if (_cardList == null)
 {
-
-    @*<p>Loading ..</p>*@
-
 
     @(new MarkupString($@"<script src=""https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs"" type=""module""></script>"))
     <div class="full-screen-container">
@@ -25,67 +48,88 @@
 }
 else
 {
-    <h1 style="float; left;">My Cards</h1>
-    <img style="float; right;" class ="img" src="images/add.png" alt="Add" width="40" height="40" @onclick="@(() => NavigationManager.NavigateTo("/add", forceLoad: true))" />
-    <NavLink href="/add">add</NavLink>
-
+    <div class="main-container">
+        <h1 class="left-column title">My Cards</h1>
+        <img class="right-column" src="Images/add.png" alt="Add" width="40" height="40" @onclick="@(() => NavigationManager.NavigateTo("/add", forceLoad: true))" />
+    </div>
     <div class="row-scrollable-container">
         @foreach (CardModel card in _cardList)
         {
-            <div class="card" @onclick="@(() => CardDetailClicked(@card.Id))">
-                <div class="card-body">
-                    <h5 class="card-title" >@card.DisplayName</h5>
-                    <p class="card-text">@card.JobTitle</p>
-                    <p class="card-text"><small class="text-muted">@card.Phone</small></p>
-                </div>
-            </div>
+            <CustomCard CardModel="@card" OnCardClick="CardDetailClicked" />
+        }
+
+    </div>
+    <div class="indicator-container">
+        @for (int i = 0; i < _cardList.Count; i++)
+        {
+            @*<div class="indicator-circle @((i == @visibleCardIndex) ? "selected-indicator" : "")"></div>*@
         }
     </div>
 
-    <h1>Scan History</h1>
+    <h1 class="title">Scan History</h1>
 
     <div class="column-scrollable-container">
-        @foreach (CardModel card in _cardList)
-        {
-            <div class="card" @onclick="@(() => CardDetailClicked(@card.Id))">
-                <div class="card-body">
-                    <h5 class="card-title">@card.DisplayName</h5>
-                    <p class="card-text">@card.JobTitle</p>
-                    <p class="card-text"><small class="text-muted">@card.Phone</small></p>
-                </div>
-            </div>
+        @if(_latestScannedCardList == null){
+
+                <p>No latest scanned card found</p>
+
+        }else{
+
+                @foreach (CardModel card in _latestScannedCardList)
+                {
+                    <CustomCard CardModel="@card" OnCardClick="CardDetailClicked" />
+
+                }
         }
+
     </div>
 }
 
 @code {
 
     List<CardModel> _cardList;
+    List<CardModel> _latestScannedCardList = new List<CardModel>(); // Initialize the list
+    Blazored.LocalStorage.ILocalStorageService localStorage;
+
     protected override async Task OnInitializedAsync()
     {
+
+
+
         ResponseModel<List<CardModel>> responseModel = await CardService.GetHomePageDetails();
         SemanticScreenReader.Announce(responseModel.Message);
-        await CommunityToolkit.Maui.Alerts.Toast.Make(responseModel.Message, ToastDuration.Long, 16).Show(new CancellationTokenSource().Token);
+        //await CommunityToolkit.Maui.Alerts.Toast.Make(responseModel.Message, ToastDuration.Long, 16).Show(new CancellationTokenSource().Token);
 
         if (responseModel.Success)
         {
             _cardList = responseModel.Data;
+        }
+        //await localStorage.SetItemAsync<int>("number", 17);
+        ResponseModel<List<int>> responseModel1 = await localService.GetLatestScanedCards();
+
+        if(responseModel1.Data != null)
+        {
+            foreach (int cardId in responseModel1.Data)
+            {
+                ResponseModel<CardModel> cardResponse = await CardService.GetCardDetailByCardId(cardId);
+                if (cardResponse.Success)
+                {
+                    _latestScannedCardList.Add(cardResponse.Data);
+                }
+            }
+        }
+        else
+        {
 
         }
-        //NavigationManager.LocationChanged += HandleLocationChanged;
+
 
     }
 
-    protected override async Task OnParametersSetAsync()
-    {
-        // This event will fire when the parameters change
-        // Put your code here.  
 
-    }
 
     protected void CardDetailClicked(int cardId)
     {
-
         NavigationManager.NavigateTo("/detail/" + cardId, forceLoad: true);
     }
 
@@ -94,17 +138,6 @@ else
         NavigationManager.NavigateTo("/add", forceLoad: true);
     }
 
-    //private void HandleLocationChanged(object sender, LocationChangedEventArgs e)
-    //{
-    //    // rerender component
-    //    StateHasChanged();
-    //}
-
-    //public void Dispose()
-    //{
-    //    // remove from the NavigationManager event
-    //    NavigationManager.LocationChanged -= HandleLocationChanged;
-    //}
 
 
 }

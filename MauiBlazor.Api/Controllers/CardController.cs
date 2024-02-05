@@ -139,6 +139,13 @@ public class CardController : ControllerBase
             return BadRequest("Card not found.");
         }
 
+        // Check if the card is already saved
+        var savedCardExists = _dbContext.SavedCards.Any(sc => sc.UserId == model.UserId && sc.CardId == model.CardId);
+        if (savedCardExists)
+        {
+            return BadRequest("Card is already saved.");
+        }
+
         try
         {
             var savedCard = new SavedModel { UserId = model.UserId, CardId = model.CardId };

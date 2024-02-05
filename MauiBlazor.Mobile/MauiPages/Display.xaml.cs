@@ -1,6 +1,8 @@
-﻿namespace MauiBlazor.Mobile.MauiPages;
+﻿using MauiPopup.Views;
 
-public partial class DisplayPage
+namespace MauiBlazor.Mobile.MauiPages;
+
+public partial class DisplayPage : BasePopupPage
 {
 	public DisplayPage()
 	{

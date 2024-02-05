@@ -1,0 +1,53 @@
+﻿@using MauiBlazor.Shared.Models;
+
+<style>
+    .customCard {
+        flex: 1 0 100%;
+        width: 100%;
+        height: 150px ;
+        margin-right: 15px;
+        margin-bottom: 15px; /* Add vertical padding */
+        background-color: #E3E7A0;
+        perspective: 1px;
+        border-radius: 15px; /* Set border radius */
+        padding: 15px; /* Add padding on all sides */
+        background-color: #E3E7A0;
+        h3
+
+    {
+        font-weight: bold;
+    }
+
+    h4 {
+        color: #5E5B67;
+        font-weight: bold;
+    }
+
+    h5 {
+        color: #322F40;
+        font-weight: bold;
+    }
+</style>
+
+<div class="customCard" @onclick="@(() => CardClicked())">
+    <div class="card-body">
+        <h3 class="card-title">@CardModel.DisplayName</h3>
+        <h4 class="card-text">@CardModel.JobTitle</h4>
+        <h5 class="card-text"><small class="text-muted">@CardModel.WebsiteUrl</small></h5>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public CardModel CardModel { get; set; }
+
+    [Parameter]
+    public EventCallback<int>
+    OnCardClick
+    { get; set; }
+
+    private async Task CardClicked()
+    {
+        await OnCardClick.InvokeAsync(@CardModel.Id);
+    }
+}

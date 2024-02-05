@@ -5,12 +5,16 @@
 @using System.Drawing;
 
 @using Microsoft.AspNetCore.Components;
+@using MauiBlazor.Mobile.MauiPages;
 
 @using MauiBlazor.Shared.Models;
 @using MauiBlazor.Mobile.Data;
 @using CommunityToolkit.Maui.Core;
 @using MauiBlazor.Mobile.Services;
 
+@using MauiPopup;
+
+@inject HttpClient HttpClient;
 @inject NavigationManager NavigationManager;
 
 
@@ -18,53 +22,55 @@
     body {
         background-color: #EFF0F4;
     }
+    h5 {
+        font-weight: regular;
+        color: #5E5B67;
+    }
+    h4{
+        font-weight: bold;
+        color: black;
+    }
 </style>
-@if (pageStatus == DetailPageStatus.ShowQRStatus)
+
+ @if (pageStatus == DetailPageStatus.EditStatus)
 {
-    <div>
-        <Button @onclick="() => Button_Clicked()">Click</Button>
-    </div>
+<img src="Images/user.png" />
+<h2>@cardModel.DisplayName</h2>
+<h3>@cardModel.JobTitle</h3>
 
-}
-else if (pageStatus == DetailPageStatus.EditStatus)
-{
-    <img src="user.png" />
-    <h2>@cardModel.DisplayName</h2>
-    <h3>@cardModel.JobTitle</h3>
+<div class="hstack gap-3">
+    <Button style="background-color: #fff; color:black;" @onclick="OpenDisplayPagePopup">Show QR</Button>
+    <Button style="background-color: #fff; color:black;" @onclick="() => Emit(DetailPageStatus.EditStatus)">Edit</Button>
+    <Button style="background-color: #FFBEBE; color: #FF0000" @onclick="DeleteButtonClicked">Delete</Button>
 
-    <div class="hstack gap-3">
-        <Button style="background-color: #fff; color:black;" @onclick="() => Emit(DetailPageStatus.ShowQRStatus)">Show QR</Button>
-        <Button style="background-color: #fff; color:black;" @onclick="() => Emit(DetailPageStatus.EditStatus)">Edit</Button>
-        <Button style="background-color: #FFBEBE; color: #FF0000" @onclick="DeleteButtonClicked">Delete</Button>
+</div>
 
-    </div>
+@*<div class="frame" style="background-color:#fff;">
 
-    @*<div class="frame" style="background-color:#fff;">
+        <div class="vstack-gap-3">
+            <h3>Phone</h3>
+            <input value="@IsEditEnabled" type="text" placeholder="@cardModel.Phone" />
 
-            <div class="vstack-gap-3">
-                <h3>Phone</h3>
-                <input value="@IsEditEnabled" type="text" placeholder="@cardModel.Phone" />
+            <h3>Mail</h3>
+            <input value="@IsEditEnabled" type="text" placeholder="@cardModel.Mail" />
 
-                <h3>Mail</h3>
-                <input value="@IsEditEnabled" type="text" placeholder="@cardModel.Mail" />
+            <h3>Address</h3>
+            <input value="@IsEditEnabled" type="text" placeholder="@cardModel.Address" />
 
-                <h3>Address</h3>
-                <input value="@IsEditEnabled" type="text" placeholder="@cardModel.Address" />
+        </div>
+    </div>*@
 
-            </div>
-        </div>*@
+<EditForm Model="@cardModel" OnValidSubmit="EditButtonClicked">
+    <input type="text" value="@cardModel.DisplayName" />
+    <button type="submit">Save</button>
+</EditForm>
 
-    <EditForm Model="@cardModel" OnValidSubmit="EditButtonClicked">
-        <input type="text" value="@cardModel.DisplayName" />
-        <button type="submit">Save</button>
-    </EditForm>
-
-    <Button>Save</Button>
+<Button>Save</Button>
 
 }
 else if (pageStatus == DetailPageStatus.CardDetailStatus)
 {
-    <img src="user.png" />
+    <img src="Images/user.png" height="45" width="45" />
     <h2>@cardModel.DisplayName</h2>
     <h3>@cardModel.JobTitle</h3>
 
@@ -75,16 +81,19 @@ else if (pageStatus == DetailPageStatus.CardDetailStatus)
 
     </div>
 
-    <div class="frame" style="background-color:#fff;">
+    <div class="frame">
+        <div class="column">
 
-        <div class="vstack-gap-3">
-            <h3>Phone</h3>
+            <h5>Phone</h5>
             <h4>@cardModel.Phone</h4>
 
-            <h3>Mail</h3>
+            <h5>Mail</h5>
             <h4>@cardModel.Mail</h4>
 
-            <h3>Address</h3>
+            <h5>Website Urls:</h5>
+            <h4>@cardModel.WebsiteUrl</h4>
+
+            <h5>Address</h5>
             <h4>@cardModel.Address</h4>
 
         </div>
@@ -261,12 +270,12 @@ else if (pageStatus == DetailPageStatus.CardDetailStatus)
 
         }
     }
-    protected async void Button_Clicked()
+    private async void OpenDisplayPagePopup()
     {
-        NavigationManager.NavigateTo("/saved");
+
+        PopupAction.DisplayPopup(new MauiBlazor.Mobile.MauiPages.DisplayPage());
 
     }
-
 
 }
 

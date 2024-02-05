@@ -1,27 +1,33 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<popup:BasePopupPage xmlns:mct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+            xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MauiBlazor.Mobile.MauiPages.DisplayPage"
+            xmlns:popup="clr-namespace:MauiPopup.Views;assembly=MauiPopup"
               xmlns:cv="clr-namespace:Camera.MAUI;assembly=Camera.MAUI"
              xmlns:mauipages="clr-namespace:MauiBlazor.Mobile.MauiPages"
              x:DataType="mauipages:DisplayPage"
-    >
+             >
     
-<VerticalStackLayout>
-        <Frame BackgroundColor="White" CornerRadius="10" Margin="20" BorderColor="White">
-           <VerticalStackLayout VerticalOptions="Center">
-                <Frame BackgroundColor="White" CornerRadius="10" Margin="20" BorderColor="White">
-                    <VerticalStackLayout Spacing="5" HorizontalOptions="Center">
-                        <!--<Image Source="user.png" WidthRequesft="40" HeightRequest="40"/>-->
-                        <!--<Label Text="{Binding Model.DisplayName}" FontSize="20" FontAttributes="Bold" VerticalOptions="CenterAndExpand"/>-->
-                        <cv:BarcodeImage BarcodeMargin="5" WidthRequest="250" HeightRequest="250" BarcodeHeight="250" BarcodeWidth="250"
-                            BarcodeBackground="White" BarcodeForeground="Black" BarcodeFormat="QR_CODE" Barcode="17"/>
-                        <Label Text="To share the contact, ask your friend to scan the code." FontSize="15" FontAttributes="Bold" TextColor="#92919E" VerticalOptions="CenterAndExpand"/>
-                    </VerticalStackLayout>
-                </Frame>
-            </VerticalStackLayout>
-        </Frame>
-    </VerticalStackLayout>
+    <ContentView>
+        <VerticalStackLayout>
+            <Frame BackgroundColor="White" CornerRadius="10" Margin="20" BorderColor="White">
+               <VerticalStackLayout VerticalOptions="Center">
+                    <Frame BackgroundColor="White" CornerRadius="10" Margin="20" BorderColor="White">
+                        <VerticalStackLayout Spacing="5" HorizontalOptions="Center">
+                            <!--<Image Source="user.png" WidthRequesft="40" HeightRequest="40"/>-->
+                            <!--<Label Text="{Binding Model.DisplayName}" FontSize="20" FontAttributes="Bold" VerticalOptions="CenterAndExpand"/>-->
+                            <cv:BarcodeImage BarcodeMargin="5" WidthRequest="250" HeightRequest="250" BarcodeHeight="250" BarcodeWidth="250"
+                                BarcodeBackground="White" BarcodeForeground="Black" BarcodeFormat="QR_CODE" Barcode="17"/>
+                            <Label Text="To share the contact, ask your friend to scan the code." FontSize="15" FontAttributes="Bold" TextColor="#92919E" VerticalOptions="CenterAndExpand"/>
+                        </VerticalStackLayout>
+                    </Frame>
+                </VerticalStackLayout>
+            </Frame>
+        </VerticalStackLayout>
 
-</ContentPage>
+    </ContentView>
+
+</popup:BasePopupPage>
 

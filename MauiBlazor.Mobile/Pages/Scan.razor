@@ -11,6 +11,8 @@
 @using MauiPopup;
 
 
+@inject LocalService localService
+
 <style>
     .parent {
         position: relative;
@@ -18,35 +20,27 @@
         left: 0;
     }
 
-    .image1 {
-        position: relative;
-        top: 0;
-        left: 0;
-        border: 1px red solid;
-    }
 
-    .image2 {
-        position: absolute;
-        top: 30px;
-        left: 30px;
-        border: 1px green solid;
-    }
 
     .underline-text-button {
-        background-color: #C31C4B;
-        border-color: #C31C4B;
         text-decoration: underline;
-        text-decoration-color: blue;
+        text-decoration-color: #C31C4B;
+        color: #C31C4B;
     }
 
-    .basic-button {
-        background-color: #F2F2F7;
-        color: #322F40;
+    .page-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        /*height: 100vh;*/ /* Set the height to 100% of the viewport height */
     }
 
     .frame {
-        background-color: #92919E;
+        background-color: #EFF0F4;
         border-radius: 22px;
+        padding: 20px; /* Add padding as needed */
+        text-align: center;
     }
 
     h2 {
@@ -62,38 +56,55 @@
 
 @if (pageStatus == ScanPageStatus.StartScanStatus)
 {
-    <h1>Scan QR Code</h1>
+    <div class="page-container">
+        <div class="frame">
+            <h3>Scan QR Code</h3>
+            <h6 style="color: #92919E;">You can save that card by scanning the QR code of a card and access it later.</h6>
+        </div>
+        <img style="padding:35px; " src="Images/qr_preview.png" alt="Image 1" height="250">
+        <Button class="basic-button" @onclick="OpenScanPagePopup">Scan</Button>
+        <h6 style="padding-top:15px;">Did you encounter a problem while scanning QR?</h6>
+        <Button class="underline-text-button" @onclick="GoToManuallyAddPage">
+            Add your card manually<img src="Images/right_red_arrow.png" alt="Arrow" width="30" height="30" />
+        </Button>
 
-    <div class="hstack gap-3">
-        <img src="qr_preview.png" />
-        <img class="image2" src="red_outliner.png" />
+
+
+
     </div>
-
-
-    <Button class="basic-button" @onclick="OpenScanPagePopup">Scan</Button>
-    <h3>Did you encounter a problem while scanning QR?</h3>
-    <Button @onclick="GoToManuallyAddPage">Scan Manually</Button>
 
 }
 
 @if (pageStatus == ScanPageStatus.ManualScanStatus)
 {
-    <div class="frame">
-        <h2>Enter business card id</h2>
-        <h4>Please enter card id</h4>
-        <InputNumber @bind-Value="@cardId" type="number" inputmode="numeric" />
+    <div class="page-container">
+        <div class="frame">
+            <h3>Enter business card id</h3>
+            <h6>Please enter card id</h6>
+            <input type="number" id="manualId" name="manualId" placeholder="6" @bind-value="@cardId">
+        </div>
+        <Button class="basic-button" @onclick="ManuallyScanButton_Clicked" disabled="@(cardId <= 0)">Manual Scan</Button>
 
     </div>
-    <Button class="basic-button"  @onclick="ManuallyScanButton_Clicked" disabled="@(cardId <= 0)">Manual Scan</Button>
 }
 else if (pageStatus == ScanPageStatus.SuccessStatus)
 {
-    <div class="frame">
-        <h2>Scanned Successfully</h2>
-        <h4>"@cardModel.DisplayName" was scanned successfully.</h4>
+    <div class="page-container">
+        <div class="frame">
+            <img src="Images/ok.png" width="45" />
+            <h2>Scanned Successfully</h2>
+            <h4>"@cardModel.DisplayName" was scanned successfully.</h4>
+        </div>
+        <Button class="basic-button" @onclick="() =>GoToStartScanPage()">Ok</Button>
+        <Button class="underline-text-button" @onclick="OpenScanPagePopup">
+            Scan a new card <img src="Images/right_red_arrow.png" alt="Arrow" width="30" height="30" />
+        </Button>
     </div>
-    <Button class="basic-button" @onclick="() =>GoToStartScanPage()">Ok</Button>
-    <Button class="underline-text-button" @onclick="OpenScanPagePopup">Scan a new card</Button>
+
+}
+else if (pageStatus == ScanPageStatus.ErrorStatus)
+{
+
 }
 
 
@@ -103,7 +114,7 @@ else if (pageStatus == ScanPageStatus.SuccessStatus)
     //camera
     private string LocalBarcodeText;
     CardModel cardModel;
-    int cardId;
+    int cardId = 6;
     private void LocalReceivedBarcodeText(BarcodeReceivedEventArgs args)
     {
         this.LocalBarcodeText = args.BarcodeText;
@@ -136,34 +147,45 @@ else if (pageStatus == ScanPageStatus.SuccessStatus)
         //var result = this.ShowPopupAsync(new ScanPage());
         //this.ShowPopup(new ScanPage());
         PopupAction.DisplayPopup(new MauiBlazor.Mobile.MauiPages.ScanPage());
+        StateHasChanged();
 
     }
     protected async void GoToManuallyAddPage()
     {
         pageStatus = ScanPageStatus.ManualScanStatus;
+        StateHasChanged();
     }
     protected async void GoToStartScanPage()
     {
         //ResponseModel<string> responseModel = await CardService.SaveCardToUser()
         pageStatus = ScanPageStatus.StartScanStatus;
+        StateHasChanged();
     }
     protected async void ManuallyScanButton_Clicked()
     {
-        ResponseModel<string> responseModel = await CardService.SaveCardToUser(cardId);
+        //LocalService localService = new LocalService();
+
+        //ResponseModel<string> responseModel = await CardService.SaveCardToUser(cardId);
         ResponseModel<CardModel> responseModel1 = await CardService.GetCardDetailByCardId(cardId);
 
-        SemanticScreenReader.Announce(responseModel.Message);
-        await CommunityToolkit.Maui.Alerts.Toast.Make(responseModel.Message, ToastDuration.Long, 16).Show(new CancellationTokenSource().Token);
+        //SemanticScreenReader.Announce(responseModel.Message);
+        //await CommunityToolkit.Maui.Alerts.Toast.Make(responseModel.Message, ToastDuration.Long, 16).Show(new CancellationTokenSource().Token);
 
-        if (responseModel.Success && responseModel1.Success)
+        ResponseModel<string> responseModel2 = await localService.AddNewCardToLatestScanedCards(cardId);
+
+        if (
+            //responseModel.Success &&
+            responseModel1.Success && responseModel2.Success)
         {
             cardModel = responseModel1.Data;
             pageStatus = ScanPageStatus.SuccessStatus;
+            StateHasChanged();
 
         }
         else
         {
-            pageStatus = ScanPageStatus.ErrorStatus;
+            //pageStatus = ScanPageStatus.ErrorStatus;
+            //StateHasChanged();
         }
     }
 }

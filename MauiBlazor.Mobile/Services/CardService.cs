@@ -72,8 +72,8 @@ public class CardService : ContentPage
 
             }
 
-            returnResponse.Message = response.StatusCode.ToString(); // return info about response 
-        }
+            var responseBody = await response.Content.ReadAsStringAsync();
+            returnResponse.Message = responseBody;        }
         catch (Exception ex)
         {
             returnResponse.Ex = ex;
@@ -112,7 +112,8 @@ public class CardService : ContentPage
                 returnResponse.Data = null;
             }
 
-            returnResponse.Message = response.StatusCode.ToString(); // return info about response 
+            var responseBody = await response.Content.ReadAsStringAsync();
+            returnResponse.Message = responseBody;
         }
         catch (Exception ex)
         {
@@ -147,7 +148,8 @@ public class CardService : ContentPage
                 returnResponse.Data = null;
             }
 
-            returnResponse.Message = response.StatusCode.ToString(); // return info about response 
+            var responseBody = await response.Content.ReadAsStringAsync();
+            returnResponse.Message = responseBody;
         }
         catch (Exception ex)
         {
@@ -229,6 +231,7 @@ public class CardService : ContentPage
                     returnResponse.Data = Cards;
                 }
                 returnResponse.Message = response.StatusCode.ToString(); // return info about response 
+ 
             }
         }
         catch (Exception ex)
@@ -269,7 +272,8 @@ public class CardService : ContentPage
                 returnResponse.Success = true;
             }
 
-            returnResponse.Message = response.StatusCode.ToString(); // return info about response 
+            var responseBody = await response.Content.ReadAsStringAsync();
+            returnResponse.Message = responseBody;
         }
         catch (Exception ex)
         {

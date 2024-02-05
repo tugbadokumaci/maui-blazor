@@ -46,23 +46,10 @@
 
         <!-- Images -->
         <MauiFont Include="Resources\Fonts\*" />
+        <MauiFont Include="Resources\Images\*" />
 
         <!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
         <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
-        <MauiImage Include="wwwroot\Images\add.png" />
-        <MauiImage Include="wwwroot\Images\back.png" />
-        <MauiImage Include="wwwroot\Images\home_full.png" />
-        <MauiImage Include="wwwroot\Images\home.png" />
-        <MauiImage Include="wwwroot\Images\ok.png" />
-        <MauiImage Include="wwwroot\Images\qr_preview.png" />
-        <MauiImage Include="wwwroot\Images\red_outliner.png" />
-        <MauiImage Include="wwwroot\Images\right_red_arrow.png" />
-        <MauiImage Include="wwwroot\Images\sample_capture.png" />
-        <MauiImage Include="wwwroot\Images\saved_full.png" />
-        <MauiImage Include="wwwroot\Images\saved.png" />
-        <MauiImage Include="wwwroot\Images\scan.png" />
-        <MauiImage Include="wwwroot\Images\share.png" />
-        <MauiImage Include="wwwroot\Images\user.png" />
     </ItemGroup>
 
     <ItemGroup>
@@ -77,6 +64,7 @@
         <PackageReference Include="Camera.MAUI" Version="1.4.4" />
         <PackageReference Include="CommunityToolkit.Maui" Version="6.1.0" />
         <PackageReference Include="Plugin.Maui.Popup" Version="1.0.5" />
+        <PackageReference Include="Blazored.LocalStorage" Version="4.4.0" />
     </ItemGroup>
 
     <ItemGroup>
@@ -94,6 +82,21 @@
       <None Remove="Resources\Fonts\Inter-SemiBold.ttf" />
       <None Remove="Resources\Fonts\Inter-Thin.ttf" />
       <None Remove="MauiPages\" />
+      <None Remove="Resources\Images\add.png" />
+      <None Remove="Resources\Images\ok.png" />
+      <None Remove="Resources\Images\qr_preview.png" />
+      <None Remove="Resources\Images\red_outliner.png" />
+      <None Remove="Resources\Images\right_red_arrow.png" />
+      <None Remove="Resources\Images\dotnet_bot.svg" />
+      <None Remove="Resources\Images\home.png" />
+      <None Remove="Resources\Images\user.png" />
+      <None Remove="Resources\Images\saved.png" />
+      <None Remove="Resources\Images\home_full.png" />
+      <None Remove="Resources\Images\saved_full.png" />
+      <None Remove="Resources\Images\share.png" />
+      <None Remove="Resources\Images\back.png" />
+      <None Remove="Resources\Images\scan.png" />
+      <None Remove="Resources\Images\sample_capture.png" />
     </ItemGroup>
     <ItemGroup>
       <BundleResource Include="Resources\Fonts\Inter-Black.ttf" />
@@ -106,11 +109,26 @@
       <BundleResource Include="Resources\Fonts\Inter-SemiBold.ttf" />
       <BundleResource Include="Resources\Fonts\Inter-Thin.ttf" />
       <BundleResource Include="Resources\Raw\loading.json" />
+      <BundleResource Include="Resources\Images\add.png" />
+      <BundleResource Include="Resources\Images\ok.png" />
+      <BundleResource Include="Resources\Images\qr_preview.png" />
+      <BundleResource Include="Resources\Images\red_outliner.png" />
+      <BundleResource Include="Resources\Images\right_red_arrow.png" />
+      <BundleResource Include="Resources\Images\dotnet_bot.svg" />
+      <BundleResource Include="Resources\Images\home.png" />
+      <BundleResource Include="Resources\Images\user.png" />
+      <BundleResource Include="Resources\Images\saved.png" />
+      <BundleResource Include="Resources\Images\home_full.png" />
+      <BundleResource Include="Resources\Images\saved_full.png" />
+      <BundleResource Include="Resources\Images\share.png" />
+      <BundleResource Include="Resources\Images\back.png" />
+      <BundleResource Include="Resources\Images\scan.png" />
+      <BundleResource Include="Resources\Images\sample_capture.png" />
     </ItemGroup>
     <ItemGroup>
       <Folder Include="Services\" />
       <Folder Include="MauiPages\" />
-      <Folder Include="wwwroot\images\" />
+      <Folder Include="wwwroot\Images\" />
     </ItemGroup>
     <ItemGroup>
       <Compile Update="Services\ICardService.cs">
@@ -118,27 +136,28 @@
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       </Compile>
+      <Compile Update="Services\LocalService.cs">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Compile>
     </ItemGroup>
     <ItemGroup>
       <Content Remove="Resources\Raw\loading.json" />
-      <Content Remove="wwwroot\Images\add.png" />
-      <Content Remove="wwwroot\Images\back.png" />
-      <Content Remove="wwwroot\Images\dotnet_bot.svg" />
-      <Content Remove="wwwroot\Images\home_full.png" />
-      <Content Remove="wwwroot\Images\home.png" />
-      <Content Remove="wwwroot\Images\ok.png" />
-      <Content Remove="wwwroot\Images\qr_preview.png" />
-      <Content Remove="wwwroot\Images\red_outliner.png" />
-      <Content Remove="wwwroot\Images\right_red_arrow.png" />
-      <Content Remove="wwwroot\Images\sample_capture.png" />
-      <Content Remove="wwwroot\Images\saved_full.png" />
-      <Content Remove="wwwroot\Images\saved.png" />
-      <Content Remove="wwwroot\Images\scan.png" />
-      <Content Remove="wwwroot\Images\share.png" />
-      <Content Remove="wwwroot\Images\user.png" />
-      <Content Remove="wwwroot\images\" />
+      <Content Remove="wwwroot\Images\" />
     </ItemGroup>
     <ItemGroup>
-      <None Include="wwwroot\Images\dotnet_bot.svg" />
+        <BundleResource Include="wwwroot\Images\user.png" />
+      <BundleResource Include="wwwroot\Images\share.png" />
+      <BundleResource Include="wwwroot\Images\back.png" />
+      <BundleResource Include="wwwroot\Images\home_full.png" />
+      <BundleResource Include="wwwroot\Images\saved_full.png" />
+      <BundleResource Include="wwwroot\Images\scan.png" />
+      <BundleResource Include="wwwroot\Images\right_red_arrow.png" />
+      <BundleResource Include="wwwroot\Images\add.png" />
+      <BundleResource Include="wwwroot\Images\home.png" />
+      <BundleResource Include="wwwroot\Images\saved.png" />
+      <BundleResource Include="wwwroot\Images\sample_capture.png" />
+      <BundleResource Include="wwwroot\Images\ok.png" />
     </ItemGroup>
+
 </Project>

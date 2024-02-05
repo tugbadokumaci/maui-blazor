@@ -1,29 +1,66 @@
 ﻿@page "/saved"
+
+@using MauiBlazor.Shared.Models;
+@using MauiBlazor.Mobile.Data;
+@using CommunityToolkit.Maui.Core;
+
+@using MauiBlazor.Shared.Models;
+@using Newtonsoft.Json;
+@using MauiBlazor.Mobile.Data;
+@using CommunityToolkit.Maui.Core;
+
+@inject HttpClient HttpClient
 @inject NavigationManager NavigationManager
 
 
-@using MauiBlazor.Mobile.MauiPages;
+@if (_cardList == null)
+{@(new MarkupString($@"<script src=""https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs"" type=""module""></script>"))
+    <div class="full-screen-container">
 
-<h1>Hello, world!</h1>
+        <dotlottie-player src="https://lottie.host/69531b5b-e989-4b1d-b26e-28c934bf467e/nqTskbP4j9.json" background="transparent" speed="1" style="width: 300px; height: 300px;" loop autoplay></dotlottie-player>
 
-Welcome to your new app.
+    </div>
 
-<Button @onclick="() => scan()">scan</Button>
-<Button @onclick="() => display()">display</Button>
-<SurveyPrompt Title="How is Blazor working for you?" />
+}
+else
+{
+    <h1>Saved Cards</h1>
+
+    <div class="column-scrollable-container">
+        @foreach (CardModel card in _cardList)
+        {
+            <div class="card" @onclick="@(() => CardDetailClicked(@card.Id))">
+                <div class="card-body">
+                    <h5 class="card-title">@card.DisplayName</h5>
+                    <p class="card-text">@card.JobTitle</p>
+                    <p class="card-text"><small class="text-muted">@card.Phone</small></p>
+                </div>
+            </div>
+        }
+    </div>
+
+}
+
 
 @code{
-    private async void scan()
-    {
-        //Application.Current.MainPage = new ScanPage();
 
+    List<CardModel> _cardList;
+    protected override async Task OnInitializedAsync()
+    {
+        ResponseModel<List<CardModel>> responseModel = await CardService.GetSavedCardsByUserId();
+        SemanticScreenReader.Announce(responseModel.Message);
+        await CommunityToolkit.Maui.Alerts.Toast.Make(responseModel.Message, ToastDuration.Long, 16).Show(new CancellationTokenSource().Token);
+
+        if (responseModel.Success)
+        {
+            _cardList = responseModel.Data;
+
+        }
     }
 
-    private async void display()
+    protected void CardDetailClicked(int cardId)
     {
-        //Application.Current.MainPage = new DisplayPage();
-        NavigationManager.NavigateTo("/add");
 
-
+        NavigationManager.NavigateTo("/detail/" + cardId, forceLoad: true);
     }
 }

@@ -50,6 +50,49 @@
 
     <script src="_content/BlazorBarcodeScanner.ZXing.JS/zxingjs.index.min.js"></script>
     <script src="_content/BlazorBarcodeScanner.ZXing.JS/BlazorBarcodeScanner.js"></script>
+
+
+
+    <script>
+
+        function AddNewCardTextPreview() {
+            let DisplayName = document.getElementById("DisplayName").value || '-';
+            let JobTitle = document.getElementById("JobTitle").value || '-';
+            let WebsiteUrl = document.getElementById("WebsiteUrl").value || '-';
+
+            document.getElementById("DisplayName_preview").innerHTML = DisplayName;
+            document.getElementById("JobTitle_preview").innerHTML = JobTitle;
+            document.getElementById("WebsiteUrl_preview").innerHTML = WebsiteUrl;
+        }
+
+
+
+        //window.addEventListener('scroll', function () {
+        //    var container = document.querySelector('.row-scrollable-container');
+        //    var cards = container.querySelectorAll('.customCard');
+
+        //    var visibleCardIndex = -1;
+
+        //    cards.forEach(function (card, index) {
+        //        var rect = card.getBoundingClientRect();
+
+        //        if (
+        //            rect.top >= 0 &&
+        //            rect.left >= 0 &&
+        //            rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+        //            rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+        //        ) {
+        //            visibleCardIndex = index;
+        //        }
+        //    });
+
+        //    DotNet.invokeMethodAsync('MauiBlazor.Mobile', 'UpdateVisibleCard', visibleCardIndex);
+        //});
+    </script>
+
+
+
+
 </body>
 
 </html>

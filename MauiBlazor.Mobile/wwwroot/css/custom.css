@@ -1,39 +1,56 @@
-﻿    .main-container {
-        display: flex;
-        flex-direction: row;
-    }
+﻿.main-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
-    .left-column {
-        flex: 1;
-        padding-right: 20px; /* Adjust the spacing between columns */
-    }
+}
 
-    .right-column {
-        flex: 2;
-        overflow-x: auto;
-        display: flex;
-        flex-direction: row;
-    }
+.left-column {
+    margin: 0; /* Remove default margin */
+}
 
-.card {
-    flex: 1 0 80%;
+.right-column {
+    margin: 0; /* Remove default margin */
+}
+.customCard {
+    flex-shrink: 0; /* Prevent the card from shrinking */
+    flex-grow: 0; /* Prevent the card from growing */
+    width: 100%; /* Set a fixed width */
     margin-right: 15px;
-    margin-bottom: 15px; /* Add vertical padding */
+    margin-bottom: 15px;
     background-color: #E3E7A0;
     perspective: 1px;
-    border-radius: 15px; /* Set border radius */
-    padding: 15px; /* Add padding on all sides */
+    border-radius: 15px;
+    padding: 15px;
+    scroll-snap-align: start;
+    h3
+
+{
+    font-weight: bold;
+}
+
+h4 {
+    color: #5E5B67;
+    font-weight: bold;
+}
+
+h5 {
+    color: #322F40;
+    font-weight: bold;
+}
+
 }
     .add-button {
         margin-left: auto; /* Push the button to the end of the left column */
         cursor: pointer;
     }
 
-    .row-scrollable-container {
-        overflow-x: auto;
-        display: flex;
-        flex-direction: row;
-    }
+.row-scrollable-container {
+    overflow-x: auto;
+    display: flex;
+    flex-direction: row;
+    scroll-snap-type: x mandatory; /* Yatay eksende zorunlu scroll snap */
+}
 
     .column-scrollable-container {
         overflow-x: auto;
@@ -56,4 +73,27 @@
 
 .Button{
     
+}
+
+.basic-button {
+    background-color: #F2F2F7;
+    color: #322F40;
+    margin-top: 10px; /* Add margin as needed */
+    font-size: 20px;
+    width: 200px;
+    border-radius: 14px;
+    font-weight: bold;
+    vertical-align: central;
+}
+.form-group {
+    border: none;
+}
+
+.title{
+    padding: 5px;
+}
+.frame {
+    background-color: #fff;
+    padding: 20px;
+    margin-top: 10px;
 }
