@@ -4,11 +4,21 @@ using System.Text.Json;
 using MauiBlazor.Shared.Models;
 using Newtonsoft.Json;
 
-namespace MauiBlazor.Mobile.Data;
+namespace MauiBlazor.Mobile.Services;
 
 public class CardService : ContentPage
 {
+    private static void ConfigureHttpClient(HttpClient client)
+    {
+        string jwtToken = Preferences.Default.Get<string>("jwtToken", "");
 
+        // Yetkilendirme başlığını ayarlayın
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwtToken);
+
+        // İsteğin kabul edilebilir medya türlerini belirtin
+        client.DefaultRequestHeaders.Accept.Clear();
+        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+    }
 
     public static async Task<ResponseModel<List<CardModel>>> GetHomePageDetails()
     {
@@ -18,6 +28,8 @@ public class CardService : ContentPage
         {
             using (HttpClient client = new HttpClient())
             {
+                ConfigureHttpClient(client); // JWT tokenini ekleyin
+
                 string apiUrl = $"{App.BaseUrl}/Card/GetAllCards";
 
                 // GET request
@@ -26,7 +38,6 @@ public class CardService : ContentPage
                 if (response.IsSuccessStatusCode)
                 {
                     string result = await response.Content.ReadAsStringAsync();
-
 
                     returnResponse.Success = true;
                     returnResponse.Data = JsonConvert.DeserializeObject<List<CardModel>>(result);
@@ -40,6 +51,7 @@ public class CardService : ContentPage
         }
         return returnResponse;
     }
+
 
     public async Task<ResponseModel<string>> AddCard(CardModel cardModel)
     {
@@ -73,7 +85,8 @@ public class CardService : ContentPage
             }
 
             var responseBody = await response.Content.ReadAsStringAsync();
-            returnResponse.Message = responseBody;        }
+            returnResponse.Message = responseBody;
+        }
         catch (Exception ex)
         {
             returnResponse.Ex = ex;
@@ -153,7 +166,7 @@ public class CardService : ContentPage
         }
         catch (Exception ex)
         {
-            returnResponse.Ex = ex;
+            returnResponse.Ex = ex; 
         }
 
         return returnResponse;
@@ -161,9 +174,11 @@ public class CardService : ContentPage
 
     public static async Task<ResponseModel<CardModel>> GetCardDetailByCardId(int cardId)
     {
+
         var returnResponse = new ResponseModel<CardModel>();
 
         HttpClient httpClient = new HttpClient();
+        ConfigureHttpClient(httpClient);
 
         string apiUrl = $"{App.BaseUrl}/Card/getCardDetails/{cardId}";
 
@@ -231,7 +246,7 @@ public class CardService : ContentPage
                     returnResponse.Data = Cards;
                 }
                 returnResponse.Message = response.StatusCode.ToString(); // return info about response 
- 
+
             }
         }
         catch (Exception ex)
@@ -246,9 +261,9 @@ public class CardService : ContentPage
 
         string userId = "00883398-4f3c-48fa-83de-722e9305b0a9"; // sampleId
         var returnResponse = new ResponseModel<string>();
-         SavedModel savedModel = new SavedModel();
-    
-        savedModel.UserId = userId; 
+        SavedModel savedModel = new SavedModel();
+
+        savedModel.UserId = userId;
         savedModel.CardId = cardId;
 
         try

@@ -1,0 +1,62 @@
+﻿@page "/signup"
+
+@using MauiBlazor.Shared.Models.ResourceModels;
+@using MauiBlazor.Shared.Models;
+@using CommunityToolkit.Maui.Core;
+@using System.Text.Json;
+@using System.Net.Http.Headers;
+@using System.Text;
+@using MauiBlazor.Mobile.Services;
+
+@inject HttpClient HttpClient
+@inject NavigationManager NavigationManager
+@inject UserService userService
+
+<EditForm Model="@userModel" OnValidSubmit="signup">
+    <div class="form-group">
+        <label for="firstName">First Name:</label>
+        <InputText id="FirstName" type="text" @bind-Value="userModel.UserName"></InputText>
+        <ValidationMessage For="@(() => userModel.UserName)" />
+    </div>
+
+    <div class="form-group">
+        <label for="firstName">First Name:</label>
+        <InputText id="FirstName" type="text" @bind-Value="userModel.UserSurname"></InputText>
+        <ValidationMessage For="@(() => userModel.UserName)" />
+    </div>
+    <div class="form-group">
+        <label for="firstName">First Name:</label>
+        <InputText id="FirstName" type="text" @bind-Value="userModel.Email"></InputText>
+        <ValidationMessage For="@(() => userModel.UserName)" />
+    </div>
+    <div class="form-group">
+        <label for="firstName">First Name:</label>
+        <InputText id="FirstName" type="text" @bind-Value="userModel.Password"></InputText>
+        <ValidationMessage For="@(() => userModel.UserName)" />
+    </div>
+
+</EditForm>
+
+@code{
+
+    private UserModel userModel = new UserModel();
+
+    //UserService userService;
+
+    public async Task signup()
+    {
+        ResponseModel<AuthenticationResponse> responseModel = await userService.Signup(userModel);
+
+        SemanticScreenReader.Announce(responseModel.Message);
+        await CommunityToolkit.Maui.Alerts.Toast.Make(responseModel.Message, ToastDuration.Long, 16).Show(new CancellationTokenSource().Token);
+
+
+        if (responseModel.Success)
+        {
+            NavigationManager.NavigateTo("/login", forceLoad: true);
+        }
+
+    }
+
+}
+

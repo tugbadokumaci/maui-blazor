@@ -5,6 +5,6 @@ namespace MauiBlazor.Mobile.Services;
 
 public interface IUserService
 {
-    Task<AuthenticationResponse> Signup(UserModel userModel);
-    Task<AuthenticationResponse> Login(AuthenticationRequest request);
+    Task<ResponseModel<AuthenticationResponse>> Signup(UserModel userModel);
+    Task<ResponseModel<AuthenticationResponse>> Login(AuthenticationRequest request);
 }

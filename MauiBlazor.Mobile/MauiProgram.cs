@@ -7,6 +7,8 @@ using ZXing.Net.Maui.Controls;
 using MauiBlazor.Mobile.Services;
 using Blazored.LocalStorage;
 
+// sil
+using Microsoft.AspNetCore.Authorization;
 namespace MauiBlazor.Mobile;
 
 public static class MauiProgram
@@ -38,7 +40,7 @@ builder.UseMauiApp<App>().UseMauiCommunityToolkit()
             });
 
        
-        builder.Services.AddMauiBlazorWebView();
+        builder.Services.AddMauiBlazorWebView(); 
         builder.Services.AddScoped<LocalService>();
 
 
@@ -51,12 +53,16 @@ builder.UseMauiApp<App>().UseMauiCommunityToolkit()
         //builder.Services.AddSingleton<IStudentService, StudentService>();
         builder.Services.AddSingleton<WeatherForecastService>();
         builder.Services.AddSingleton<CardService>();
+        builder.Services.AddSingleton<UserService>();
         builder.Services.AddSingleton<LocalService>();
 
 
         builder.Services.AddBlazoredLocalStorage();
         builder.Services.AddSingleton(Preferences.Default);
 
+
+
+      
 
         return builder.Build();
 	}

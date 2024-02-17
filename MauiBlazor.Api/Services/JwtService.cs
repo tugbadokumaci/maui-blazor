@@ -10,7 +10,7 @@ namespace MauiBlazor.Api.Services;
 
 public class JwtService
 {
-    private const int EXPIRATION_MINUTES = 1;
+    private const int EXPIRATION_MONTHS = 1;
 
     private readonly IConfiguration _configuration;
 
@@ -21,7 +21,7 @@ public class JwtService
 
     public AuthenticationResponse CreateToken(IdentityUser user)
     {
-        var expiration = DateTime.UtcNow.AddMinutes(EXPIRATION_MINUTES);
+        var expiration = DateTime.UtcNow.AddMonths(EXPIRATION_MONTHS);
 
         var token = CreateJwtToken(
             CreateClaims(user),
@@ -34,34 +34,35 @@ public class JwtService
         return new AuthenticationResponse
         {
             Token = tokenHandler.WriteToken(token),
-            Expiration = expiration
+            Expiration = expiration,
+            Id = user.Id,
+            Username = user.UserName
         };
     }
 
     private JwtSecurityToken CreateJwtToken(Claim[] claims, SigningCredentials credentials, DateTime expiration) =>
-        new JwtSecurityToken(
-            _configuration["Jwt:Issuer"]!,
-            _configuration["Jwt:Audience"]!,
-            claims,
-            expires: expiration,
-            signingCredentials: credentials
-        );
+            new JwtSecurityToken(
+                _configuration["JWT:Issuer"],
+                _configuration["JWT:Audience"],
+                claims,
+                expires: expiration,
+                signingCredentials: credentials
+            );
 
     private Claim[] CreateClaims(IdentityUser user) =>
-        new[] {
-            new Claim(JwtRegisteredClaimNames.Sub, _configuration["Jwt:Subject"]!),
+        new[]
+        {
+            new Claim(JwtRegisteredClaimNames.Sub, user.UserName), // veya kullanıcıya özgü başka bir kimlik bilgisi
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
-            new Claim(ClaimTypes.NameIdentifier, user.Id!),
-            new Claim(ClaimTypes.Name, user.UserName!),
-            new Claim(ClaimTypes.Email, user.Email!)
+            new Claim(ClaimTypes.NameIdentifier, user.Id),
+            new Claim(ClaimTypes.Name, user.UserName),
+            new Claim(ClaimTypes.Email, user.Email)
         };
 
     private SigningCredentials CreateSigningCredentials() =>
         new SigningCredentials(
-            new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!)
-            ),
+            new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Key"])),
             SecurityAlgorithms.HmacSha256
         );
 }

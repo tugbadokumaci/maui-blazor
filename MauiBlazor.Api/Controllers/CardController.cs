@@ -1,10 +1,12 @@
 ﻿using System;
 using MauiBlazor.Api.Data;
 using MauiBlazor.Shared.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MauiBlazor.Api.Controllers;
 
+[AllowAnonymous]
 [ApiController]
 [Route("api/[controller]")]
 public class CardController : ControllerBase
@@ -81,6 +83,7 @@ public class CardController : ControllerBase
     [HttpPut("updateCard/{Id}")]
     public IActionResult UpdateCard(String userId, int Id, [FromBody] CardModel updatedCard)
     {
+        
         try
         {
             var existingCard = _dbContext.Cards.FirstOrDefault(c => c.Id == Id && c.CreatorId == userId);
