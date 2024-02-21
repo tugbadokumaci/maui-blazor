@@ -2,6 +2,7 @@
 using System.Text;
 using System.Text.Json;
 using MauiBlazor.Shared.Models;
+using MauiBlazor.Shared.Models.ResourceModels;
 using Newtonsoft.Json;
 
 namespace MauiBlazor.Mobile.Data;
@@ -47,7 +48,7 @@ public class CardService : ContentPage
         string userId = "00883398-4f3c-48fa-83de-722e9305b0a9"; // sampleId
 
         var returnResponse = new ResponseModel<string>();
-
+        cardModel.CreatorId = userId;
         try
         {
             var jsonSerializerOptions = new JsonSerializerOptions
@@ -63,17 +64,26 @@ public class CardService : ContentPage
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
 
-            var response = await httpClient.PostAsync($"{App.BaseUrl}/Card/createCardByUserId/{userId}", stringContent);
+            //var response = await httpClient.PostAsync($"{App.BaseUrl}/Card/createCardByUserId/{userId}", stringContent);
+            //var response = await httpClient.PostAsync($"{App.BaseUrl}/Card/createCardByUserId/{userId}", stringContent);
+            var response = await httpClient.PostAsync($"{App.BaseUrl}/Card/createCardByUserId/{userId}", stringContent);  // Correct
 
             if (response != null && response.IsSuccessStatusCode)
             {
                 returnResponse.Success = true;
                 returnResponse.Data = null;
+                returnResponse.Message = $"New card '{cardModel.DisplayName}' has been created successfully.";
 
             }
+            else
+            {
+                var responseBody = await response.Content.ReadAsStringAsync();
+                
+                //returnResponse.Message = responseBody;
+                returnResponse.Message = $"Error creating card. Please double-check the card details and try again.";
+            }
 
-            var responseBody = await response.Content.ReadAsStringAsync();
-            returnResponse.Message = responseBody;        }
+        }
         catch (Exception ex)
         {
             returnResponse.Ex = ex;

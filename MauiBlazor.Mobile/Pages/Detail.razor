@@ -22,50 +22,51 @@
     body {
         background-color: #EFF0F4;
     }
+
     h5 {
         font-weight: regular;
         color: #5E5B67;
     }
-    h4{
+
+    h4 {
         font-weight: bold;
         color: black;
     }
 </style>
 
- @if (pageStatus == DetailPageStatus.EditStatus)
+@if (pageStatus == DetailPageStatus.EditStatus)
 {
-<img src="Images/user.png" />
-<h2>@cardModel.DisplayName</h2>
-<h3>@cardModel.JobTitle</h3>
+    <img src="Images/user.png" height="45" width="45" />
+    <h2>@cardModel.DisplayName</h2>
+    <h3>@cardModel.JobTitle</h3>
 
-<div class="hstack gap-3">
-    <Button style="background-color: #fff; color:black;" @onclick="OpenDisplayPagePopup">Show QR</Button>
-    <Button style="background-color: #fff; color:black;" @onclick="() => Emit(DetailPageStatus.EditStatus)">Edit</Button>
-    <Button style="background-color: #FFBEBE; color: #FF0000" @onclick="DeleteButtonClicked">Delete</Button>
+    <div class="hstack gap-3">
+        <Button style="background-color: #fff; color:black;" @onclick="OpenDisplayPagePopup">Show QR</Button>
+        <Button style="background-color: #fff; color:black;" @onclick="() => Emit(DetailPageStatus.EditStatus)" disabled>Edit</Button>
+        <Button style="background-color: #FFBEBE; color: #FF0000" @onclick="DeleteButtonClicked">Delete</Button>
 
-</div>
+    </div>
 
-@*<div class="frame" style="background-color:#fff;">
+    <EditForm Model="@cardModel" OnValidSubmit="EditButtonClicked">
+        <div class="column">
+            <h5>Phone</h5>
+            <InputText @bind-Value="@cardModel.Phone" />
 
-        <div class="vstack-gap-3">
-            <h3>Phone</h3>
-            <input value="@IsEditEnabled" type="text" placeholder="@cardModel.Phone" />
+            <h5>Mail</h5>
+            <InputText @bind-Value="@cardModel.Mail" />
 
-            <h3>Mail</h3>
-            <input value="@IsEditEnabled" type="text" placeholder="@cardModel.Mail" />
+            <h5>Website Address</h5>
+            <InputText @bind-Value="@cardModel.WebsiteUrl" />
 
-            <h3>Address</h3>
-            <input value="@IsEditEnabled" type="text" placeholder="@cardModel.Address" />
+            <h5>Address</h5>
 
+            <InputText @bind-Value="@cardModel.Address" />
         </div>
-    </div>*@
+        <button type="submit">Save</button>
 
-<EditForm Model="@cardModel" OnValidSubmit="EditButtonClicked">
-    <input type="text" value="@cardModel.DisplayName" />
-    <button type="submit">Save</button>
-</EditForm>
+    </EditForm>
 
-<Button>Save</Button>
+
 
 }
 else if (pageStatus == DetailPageStatus.CardDetailStatus)
@@ -90,7 +91,7 @@ else if (pageStatus == DetailPageStatus.CardDetailStatus)
             <h5>Mail</h5>
             <h4>@cardModel.Mail</h4>
 
-            <h5>Website Urls:</h5>
+            <h5>Website Address</h5>
             <h4>@cardModel.WebsiteUrl</h4>
 
             <h5>Address</h5>
@@ -260,7 +261,11 @@ else if (pageStatus == DetailPageStatus.CardDetailStatus)
         {
             SemanticScreenReader.Announce("Card updated.");
             await CommunityToolkit.Maui.Alerts.Toast.Make("Card updated.", ToastDuration.Long, 16).Show(new CancellationTokenSource().Token);
-            NavigationManager.NavigateTo("/");
+            //NavigationManager.NavigateTo("/");
+            pageStatus = DetailPageStatus.CardDetailStatus;
+            StateHasChanged();
+
+
 
         }
         else

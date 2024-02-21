@@ -79,11 +79,11 @@ public class CardController : ControllerBase
     }
 
     [HttpPut("updateCard/{Id}")]
-    public IActionResult UpdateCard(String userId, int Id, [FromBody] CardModel updatedCard)
+    public IActionResult UpdateCard(int Id, [FromBody] CardModel updatedCard)
     {
         try
         {
-            var existingCard = _dbContext.Cards.FirstOrDefault(c => c.Id == Id && c.CreatorId == userId);
+            var existingCard = _dbContext.Cards.FirstOrDefault(c => c.Id == Id);
 
             if (existingCard == null)
                 return NotFound("Card not found.");

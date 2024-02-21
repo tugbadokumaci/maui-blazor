@@ -1,5 +1,4 @@
 ﻿@page "/add"
-
 @using MauiBlazor.Shared.Models;
 @using MauiBlazor.Mobile.Data;
 
@@ -9,11 +8,9 @@
     h5 {
         color: #5E5B67;
     }
-
     .color-selector {
         display: flex;
     }
-
     .color-option {
         width: 30px;
         height: 30px;
@@ -22,7 +19,6 @@
         cursor: pointer;
         position: relative;
     }
-
     .selected-indicator {
         width: 40px;
         height: 40px;
@@ -33,7 +29,6 @@
         left: 50%;
         transform: translate(-50%, -50%);
     }
-
     .form-control {
         padding-bottom: 15px;
         border-color: lightgrey;
@@ -69,19 +64,16 @@
         border-color: lightgrey;
         outline: none;
     }
-
     /* Remove green color on valid input */
     .form-control:valid {
         border-color: lightgrey;
         outline: none;
     }
-
     /* Remove green color on confirmation */
     .form-group:valid {
         border-color: lightgrey;
         outline: none;
     }
-
 </style>
 <h3>Add a new card</h3>
 <h5>Card Preview</h5>
@@ -166,7 +158,6 @@
 
 @code {
     private CardService _cardService = new CardService(); // Create an instance
-
     private CardModel cardModel = new CardModel { };
     private List<string> colorOptions = new List<string> { "#AFD6D2", "#C0E5E8", "#DAEAF6", "#E3E7A0", "#E2CBF7" };
     private string selectedColor = "#E3E7A0";
@@ -177,18 +168,16 @@
     {
 
         selectedColor = color;
+        cardModel.CardBgColor = color;
 
 
     }
 
     protected async Task HandleValidSubmit()
     {
-
         ResponseModel<string> responseModel = await _cardService.AddCard(cardModel);
-
         SemanticScreenReader.Announce(responseModel.Message);
         await CommunityToolkit.Maui.Alerts.Toast.Make(responseModel.Message, ToastDuration.Long, 16).Show(new CancellationTokenSource().Token);
-
         if (responseModel.Success)
         {
             // empty fields

@@ -29,13 +29,15 @@ else
     <div class="column-scrollable-container">
         @foreach (CardModel card in _cardList)
         {
-            <div class="card" @onclick="@(() => CardDetailClicked(@card.Id))">
+            @*<div class="card" @onclick="@(() => CardDetailClicked(@card.Id))">
                 <div class="card-body">
                     <h5 class="card-title">@card.DisplayName</h5>
                     <p class="card-text">@card.JobTitle</p>
                     <p class="card-text"><small class="text-muted">@card.Phone</small></p>
                 </div>
-            </div>
+            </div>*@
+            <CustomCard CardModel="@card" OnCardClick="CardDetailClicked" />
+
         }
     </div>
 

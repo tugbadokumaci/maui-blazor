@@ -7,11 +7,10 @@
         height: 150px ;
         margin-right: 15px;
         margin-bottom: 15px; /* Add vertical padding */
-        background-color: #E3E7A0;
         perspective: 1px;
         border-radius: 15px; /* Set border radius */
         padding: 15px; /* Add padding on all sides */
-        background-color: #E3E7A0;
+        background-color: #C0D8C0;
         h3
 
     {
@@ -29,7 +28,7 @@
     }
 </style>
 
-<div class="customCard" @onclick="@(() => CardClicked())">
+<div class="customCard" style="background-color: @CardModel.CardBgColor;" @onclick="@(() => CardClicked())">
     <div class="card-body">
         <h3 class="card-title">@CardModel.DisplayName</h3>
         <h4 class="card-text">@CardModel.JobTitle</h4>

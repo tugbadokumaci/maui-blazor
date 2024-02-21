@@ -18,7 +18,8 @@
     width: 100%; /* Set a fixed width */
     margin-right: 15px;
     margin-bottom: 15px;
-    background-color: #E3E7A0;
+    /*    background-color: #E3E7A0;*/
+/*    background-color: var(--card-bg-color, #E3E7A0);*/
     perspective: 1px;
     border-radius: 15px;
     padding: 15px;

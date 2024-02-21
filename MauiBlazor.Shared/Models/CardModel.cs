@@ -14,4 +14,5 @@ public class CardModel : BaseModel
     public string Mail { get; set; } = string.Empty;
     public string WebsiteUrl { get; set; } = string.Empty;
     public string Address { get; set; } = string.Empty;
+    public string CardBgColor { get; set; } = string.Empty;
 }
