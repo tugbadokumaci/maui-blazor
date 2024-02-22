@@ -8,6 +8,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+ConfigurationManager configuration = builder.Configuration;
+
 builder.Services.AddHttpClient();
 
 // Add services to the container.
@@ -24,7 +26,7 @@ builder.Services.AddDbContext<MyDbContext>(options =>
         throw new InvalidOperationException("Server version not found")
     );
 });
-
+// Identity hizmetinin yapılandırılması
 builder.Services
     .AddIdentityCore<IdentityUser>(options =>
     {
@@ -37,29 +39,60 @@ builder.Services
         options.Password.RequireLowercase = false;
     })
     .AddEntityFrameworkStores<MyDbContext>();
+/*
+// Kimlik doğrulama ve yetkilendirme ekleme
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+})
 
-builder.Services
-    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
+// JWT Bearer ekleme
+.AddJwtBearer(options =>
+{
+    options.SaveToken = true;
+    options.RequireHttpsMetadata = false;
+    options.TokenValidationParameters = new TokenValidationParameters
     {
-        options.TokenValidationParameters = new TokenValidationParameters()
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidAudience = builder.Configuration["Jwt:Audience"]!,
-            ValidIssuer = builder.Configuration["Jwt:Issuer"]!,
-            IssuerSigningKey = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!)
-            )
-        };
-    });
+        //ValidateIssuerSigningKey = true,
+        //IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Secret"])),
+        ValidIssuer = configuration["JWT:Issuer"],
+        ValidAudience = configuration["JWT:Audience"]
+    };
+});
+*/
+
+// JWT doğrulama yapılandırması
+var key = Encoding.ASCII.GetBytes(builder.Configuration["AuthSettings:key"]);
+builder.Services.AddAuthentication(auth =>
+{
+    auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+
+}).AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidAudience = builder.Configuration["AuthSettings:Audience"],
+        ValidIssuer = builder.Configuration["AuthSettings:Issuer"],
+        RequireExpirationTime = true,
+        IssuerSigningKey =
+            new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(builder.Configuration["AuthSettings:key"])),
+        ValidateIssuerSigningKey = true,
+
+    };
+});
+
 
 builder.Services.AddScoped<MauiBlazor.Api.Services.JwtService>();
 
 var app = builder.Build();
+app.UseRouting();
 app.UseAuthentication();
+app.UseAuthorization();
 
 if (app.Environment.IsDevelopment())
 {
@@ -67,7 +100,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 app.UseStaticFiles();
-app.UseRouting();
-app.UseAuthorization();
+
 app.MapControllers();
 app.Run();

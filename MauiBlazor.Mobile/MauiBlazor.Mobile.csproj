@@ -65,6 +65,7 @@
         <PackageReference Include="CommunityToolkit.Maui" Version="6.1.0" />
         <PackageReference Include="Plugin.Maui.Popup" Version="1.0.5" />
         <PackageReference Include="Blazored.LocalStorage" Version="4.4.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="7.0.15" />
     </ItemGroup>
 
     <ItemGroup>
@@ -160,4 +161,10 @@
       <BundleResource Include="wwwroot\Images\ok.png" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="Pages\Login.raazor">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </None>
+    </ItemGroup>
 </Project>

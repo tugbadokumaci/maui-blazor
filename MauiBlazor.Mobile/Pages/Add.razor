@@ -1,16 +1,17 @@
 ﻿@page "/add"
 @using MauiBlazor.Shared.Models;
-@using MauiBlazor.Mobile.Data;
+@using MauiBlazor.Mobile.Services;
 
 @using CommunityToolkit.Maui.Core;
-
 <style>
     h5 {
         color: #5E5B67;
     }
+
     .color-selector {
         display: flex;
     }
+
     .color-option {
         width: 30px;
         height: 30px;
@@ -19,6 +20,7 @@
         cursor: pointer;
         position: relative;
     }
+
     .selected-indicator {
         width: 40px;
         height: 40px;
@@ -29,105 +31,132 @@
         left: 50%;
         transform: translate(-50%, -50%);
     }
+
     .form-control {
         padding-bottom: 15px;
         border-color: lightgrey;
-        
     }
-        .form-control:valid {
-            border-color: lightgrey;
-            
-        }
-        .form-control:focus {
-            border-color: lightgrey;
-        }
-        .form-control:active {
-            border-color: lightgrey;
-        }
-        .form-control:focus-visible
-    .form-section fieldset {
-        border-radius: 15px;
-    }
-        .form-group:focus{
-            border-color: darkgrey;
-        }
-    .form-group:valid {
-        border-color: lightgrey;
-    }
-    :focus {
-        outline: none !important;
-    }
-    :active{
-        outline: none !important
-    }
+
+    .form-control:valid,
+    .form-control:focus,
+    .form-control:active,
+    .form-group:focus,
+    .form-group:valid,
     form-control:focus {
         border-color: lightgrey;
         outline: none;
     }
+
+    .form-section fieldset {
+        border-radius: 15px;
+    }
+
+    :focus,
+    :active {
+        outline: none !important;
+    }
+
     /* Remove green color on valid input */
     .form-control:valid {
         border-color: lightgrey;
         outline: none;
     }
+
     /* Remove green color on confirmation */
     .form-group:valid {
         border-color: lightgrey;
         outline: none;
     }
+
+    .customCard {
+        flex-shrink: 0;
+        flex-grow: 0;
+        width: 100%;
+        height: 200px;
+        margin-right: 15px;
+        margin-bottom: 15px;
+        background-color: #E3E7A0;
+        perspective: 1px;
+        border-radius: 15px;
+        padding: 15px;
+        scroll-snap-align: start;
+        position: relative;
+    }
+
+    .front-face,
+    .back-face {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        backface-visibility: hidden;
+        transition: transform 0.5s; /* Dönme animasyonu için geçiş ekleyin */
+    }
+
+    .front-face {
+        z-index: 2;
+    }
+
+    .back-face {
+        z-index: 1;
+        transform: rotateY(180deg);
+    }
+
+    .customCard.flipped .front-face {
+        transform: rotateY(180deg);
+    }
+
+    .customCard.flipped .back-face {
+        transform: rotateY(0deg);
+    }
 </style>
+
+
 <h3>Add a new card</h3>
 <h5>Card Preview</h5>
-@*@if (IsSubmitted)
-    {
-        <p>Form submitted successfully!</p>
-    }*@
 
 <EditForm Model="@cardModel" OnValidSubmit="HandleValidSubmit">
-
-
-    <div id="card_preview" class="customCard" style="background-color: @selectedColor">
-        <div class="card-body">
+    <div id="card_preview" class="customCard @((IsFlipped ? "flipped" : ""))" style="background-color: @selectedColor">
+        <div class="card-body front-face" @onclick="ToggleCard">
             <h5 class="card-title"></h5>
             <h3 id="DisplayName_preview" class="card-text">-</h3>
             <h4 id="JobTitle_preview" class="card-text"><small class="text-muted">-</small></h4>
             <h5 id="WebsiteUrl_preview" class="card-text" style="padding-top: 30px;">-<small class="text-muted"></small></h5>
         </div>
+        <div class="card-body back-face" @onclick="ToggleCard">
+            <p>Card Back</p>
+            <p>Card Back</p>
+        </div>
     </div>
 
     <div class="form-group">
         <label for="DisplayName">Display Name:</label>
-        @*<input type="text" id="DisplayName" oninput="myFunction()">*@
-        <InputText id="DisplayName" type="text" @bind-Value="cardModel.DisplayName" class="form-control" placeholder="Display Name" oninput="AddNewCardTextPreview()" />
+        <InputText id="DisplayName" type="text" @bind-Value="cardModel.DisplayName" class="form-control" placeholder="Display Name" />
         <ValidationMessage For="@(() => cardModel.DisplayName)" />
     </div>
 
     <div class="form-group">
         <label for="JobTitle">Job Title:</label>
-        @*<input type="text" id="JobTitle" oninput="myFunction()">*@
-
-        <InputText id="JobTitle" type="text" @bind-Value="cardModel.JobTitle" class="form-control" placeholder="Job Title" oninput="AddNewCardTextPreview()" />
+        <InputText id="JobTitle" type="text" @bind-Value="cardModel.JobTitle" class="form-control" placeholder="Job Title" />
         <ValidationMessage For="@(() => cardModel.JobTitle)" />
     </div>
 
     <div class="form-group">
         <label for="Phone">Phone:</label>
-
         <InputText id="Phone" @bind-Value="cardModel.Phone" class="form-control" placeholder="Phone" />
         <ValidationMessage For="@(() => cardModel.Phone)" />
     </div>
 
     <div class="form-group">
         <label for="Mail">Mail:</label>
-
         <InputText id="Mail" @bind-Value="cardModel.Mail" class="form-control" placeholder="Mail" />
         <ValidationMessage For="@(() => cardModel.Mail)" />
     </div>
 
     <div class="form-group">
         <label for="WebsiteUrl">Website URL:</label>
-        @*<input type="text" id="WebsiteUrl">*@
-
-        <InputText id="WebsiteUrl" type="text" @bind-Value="cardModel.WebsiteUrl" class="form-control" placeholder="WebsiteUrl" oninput="AddNewCardTextPreview()" />
+        <InputText id="WebsiteUrl" type="text" @bind-Value="cardModel.WebsiteUrl" class="form-control" placeholder="WebsiteUrl" />
         <ValidationMessage For="@(() => cardModel.WebsiteUrl)" />
     </div>
 
@@ -150,45 +179,37 @@
         }
     </div>
 
-    <Button class="basic-button" @onclick="() =>HandleValidSubmit()">Create</Button>
+    <Button class="basic-button" @onclick="HandleValidSubmit">Create</Button>
 </EditForm>
-
-
-
-
 @code {
+    private bool IsFlipped = false;
+
+    private void ToggleCard()
+    {
+        IsFlipped = !IsFlipped;
+    }
+
     private CardService _cardService = new CardService(); // Create an instance
+
     private CardModel cardModel = new CardModel { };
     private List<string> colorOptions = new List<string> { "#AFD6D2", "#C0E5E8", "#DAEAF6", "#E3E7A0", "#E2CBF7" };
     private string selectedColor = "#E3E7A0";
 
-    private bool IsSubmitted = false;
-
-    private void SelectColor(string color)
-    {
-
-        selectedColor = color;
-        cardModel.CardBgColor = color;
-
-
-    }
-
-    protected async Task HandleValidSubmit()
+    private async Task HandleValidSubmit()
     {
         ResponseModel<string> responseModel = await _cardService.AddCard(cardModel);
+
         SemanticScreenReader.Announce(responseModel.Message);
         await CommunityToolkit.Maui.Alerts.Toast.Make(responseModel.Message, ToastDuration.Long, 16).Show(new CancellationTokenSource().Token);
+
         if (responseModel.Success)
         {
             // empty fields
         }
-        IsSubmitted = true;
-    }
-    private void UpdateSampleCard()
-    {
-        // This method will be called on every input change
-        // You can add any additional logic here if needed
-        StateHasChanged(); // This forces the component to re-render and update the displayed values
     }
 
+    private void SelectColor(string color)
+    {
+        selectedColor = color;
+    }
 }

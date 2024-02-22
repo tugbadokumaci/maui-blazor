@@ -1,0 +1,64 @@
+﻿@page "/login"
+@using MauiBlazor.Shared.Models.ResourceModels;
+@using MauiBlazor.Shared.Models;
+@using CommunityToolkit.Maui.Core;
+@using System.Text.Json;
+@using System.Net.Http.Headers;
+@using System.Text;
+@using MauiBlazor.Mobile.Services;
+
+@inject HttpClient HttpClient
+@inject NavigationManager NavigationManager
+
+<EditForm Model="@authenticationRequest" OnValidSubmit="login">
+    <div class="form-group">
+        <label for="email">Email:</label>
+        <InputText id="Email" type="text" @bind-Value="authenticationRequest.Email"></InputText>
+        <ValidationMessage For="@(() => authenticationRequest.Email)" />
+    </div>
+
+    <div class="form-group">
+        <label for="password">Password:</label>
+        <InputText id="Password" type="password" @bind-Value="authenticationRequest.Password"></InputText>
+        <ValidationMessage For="@(() => authenticationRequest.Password)" />
+    </div>
+
+    <button type="submit">Login</button>
+</EditForm>
+
+@code {
+
+    public AuthenticationRequest authenticationRequest = new AuthenticationRequest();
+
+    UserService userService = new UserService();
+    CardService cardService = new();
+
+    public async Task login()
+    {
+        try
+        {
+            ResponseModel<AuthenticationResponse> responseModel = await userService.Login(authenticationRequest);
+
+            SemanticScreenReader.Announce(responseModel.Message);
+            await CommunityToolkit.Maui.Alerts.Toast.Make(responseModel.Message, ToastDuration.Long, 16).Show(new CancellationTokenSource().Token);
+
+            if (responseModel.Success)
+            {
+                Preferences.Default.Set<String>("jwtToken", responseModel.Data.Token);
+                Preferences.Default.Set<String>("userId", responseModel.Data.Id);
+                Preferences.Default.Set<String>("userName", responseModel.Data.Username);
+
+                NavigationManager.NavigateTo("/home", forceLoad: true);
+            }
+            else
+            {
+
+
+            }
+        }
+        catch(Exception Ex)
+        {
+
+        }
+    }
+}

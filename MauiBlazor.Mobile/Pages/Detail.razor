@@ -43,6 +43,7 @@
     <div class="hstack gap-3">
         <Button style="background-color: #fff; color:black;" @onclick="OpenDisplayPagePopup">Show QR</Button>
         <Button style="background-color: #fff; color:black;" @onclick="() => Emit(DetailPageStatus.EditStatus)" disabled>Edit</Button>
+
         <Button style="background-color: #FFBEBE; color: #FF0000" @onclick="DeleteButtonClicked">Delete</Button>
 
     </div>
@@ -67,6 +68,28 @@
     </EditForm>
 
 
+
+    <div class="frame" style="background-color:#fff;">
+
+            <div class="vstack-gap-3">
+                <h3>Phone</h3>
+                <input value="@cardModel.Phone" type="text" />
+
+                <h3>Mail</h3>
+                <input value="@cardModel.Mail" type="text" />
+
+                <h3>Address</h3>
+                <input value="@cardModel.Address" type="text" />
+
+            </div>
+        </div>
+
+    <EditForm Model="@cardModel" OnValidSubmit="EditButtonClicked">
+        <input type="text" value="@cardModel.DisplayName" />
+        <button type="submit">Save</button>
+    </EditForm>
+
+    <Button>Save</Button>
 
 }
 else if (pageStatus == DetailPageStatus.CardDetailStatus)

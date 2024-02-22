@@ -6,16 +6,16 @@
 }
 
 .left-column {
-    margin: 0; /* Remove default margin */
+    margin: 0;  Remove default margin 
 }
 
 .right-column {
-    margin: 0; /* Remove default margin */
+    margin: 0;  Remove default margin 
 }
 .customCard {
-    flex-shrink: 0; /* Prevent the card from shrinking */
-    flex-grow: 0; /* Prevent the card from growing */
-    width: 100%; /* Set a fixed width */
+    flex-shrink: 0;  Prevent the card from shrinking 
+    flex-grow: 0;  Prevent the card from growing 
+    width: 100%;  Set a fixed width 
     margin-right: 15px;
     margin-bottom: 15px;
     /*    background-color: #E3E7A0;*/
@@ -24,9 +24,7 @@
     border-radius: 15px;
     padding: 15px;
     scroll-snap-align: start;
-    h3
-
-{
+h3{
     font-weight: bold;
 }
 
@@ -41,8 +39,9 @@ h5 {
 }
 
 }
+
     .add-button {
-        margin-left: auto; /* Push the button to the end of the left column */
+        margin-left: auto;  Push the button to the end of the left column 
         cursor: pointer;
     }
 
@@ -50,7 +49,7 @@ h5 {
     overflow-x: auto;
     display: flex;
     flex-direction: row;
-    scroll-snap-type: x mandatory; /* Yatay eksende zorunlu scroll snap */
+    scroll-snap-type: x mandatory;  Yatay eksende zorunlu scroll snap 
 }
 
     .column-scrollable-container {
@@ -68,8 +67,8 @@ h5 {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #ffffff; /* Arka plan rengini ayarlayabilirsiniz */
-    z-index: 9999; /* İsteğe bağlı: Diğer öğelerin üzerine çıkması için bir z-index değeri */
+    background-color: #ffffff;  Arka plan rengini ayarlayabilirsiniz 
+    z-index: 9999;  İsteğe bağlı: Diğer öğelerin üzerine çıkması için bir z-index değeri 
 }
 
 .Button{
@@ -79,7 +78,7 @@ h5 {
 .basic-button {
     background-color: #F2F2F7;
     color: #322F40;
-    margin-top: 10px; /* Add margin as needed */
+    margin-top: 10px;  Add margin as needed 
     font-size: 20px;
     width: 200px;
     border-radius: 14px;
