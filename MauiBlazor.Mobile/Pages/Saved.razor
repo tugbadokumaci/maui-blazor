@@ -46,7 +46,7 @@ else
     {
         ResponseModel<List<CardModel>> responseModel = await CardService.GetSavedCardsByUserId();
         SemanticScreenReader.Announce(responseModel.Message);
-        await CommunityToolkit.Maui.Alerts.Toast.Make(responseModel.Message, ToastDuration.Long, 16).Show(new CancellationTokenSource().Token);
+        //await CommunityToolkit.Maui.Alerts.Toast.Make(responseModel.Message, ToastDuration.Long, 16).Show(new CancellationTokenSource().Token);
 
         if (responseModel.Success)
         {

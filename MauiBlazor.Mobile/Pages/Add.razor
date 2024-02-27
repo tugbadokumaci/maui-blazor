@@ -197,6 +197,34 @@
 
     private async Task HandleValidSubmit()
     {
+        if (string.IsNullOrWhiteSpace(cardModel.DisplayName)) {
+            SemanticScreenReader.Announce("Please fill out all required fields.");
+            await CommunityToolkit.Maui.Alerts.Toast.Make("Display Name can't be null", ToastDuration.Long, 16).Show(new CancellationTokenSource().Token);
+            return;
+
+        }
+        else if (string.IsNullOrWhiteSpace(cardModel.JobTitle))
+        {
+            SemanticScreenReader.Announce("Please fill out all required fields.");
+            await CommunityToolkit.Maui.Alerts.Toast.Make("Job Title can't be null", ToastDuration.Long, 16).Show(new CancellationTokenSource().Token);
+            return;
+
+        }
+        else if (string.IsNullOrWhiteSpace(cardModel.Phone))
+        {
+            SemanticScreenReader.Announce("Please fill out all required fields.");
+            await CommunityToolkit.Maui.Alerts.Toast.Make("Phone Number can't be null", ToastDuration.Long, 16).Show(new CancellationTokenSource().Token);
+            return;
+
+        }
+        else if (string.IsNullOrWhiteSpace(cardModel.Mail))
+        {
+            SemanticScreenReader.Announce("Please fill out all required fields.");
+            await CommunityToolkit.Maui.Alerts.Toast.Make("Mail can't be null", ToastDuration.Long, 16).Show(new CancellationTokenSource().Token);
+            return;
+
+        }
+
         ResponseModel<string> responseModel = await _cardService.AddCard(cardModel);
 
         SemanticScreenReader.Announce(responseModel.Message);
@@ -212,4 +240,4 @@
     {
         selectedColor = color;
     }
-}
+    }

@@ -26,13 +26,19 @@
         color: #322F40;
         font-weight: bold;
     }
+    .empty-box {
+        width: 100%;
+        height: 25px;
+    }
+    
 </style>
 
 <div class="customCard" style="background-color: @CardModel.CardBgColor;" @onclick="@(() => CardClicked())">
     <div class="card-body">
-        <h3 class="card-title">@CardModel.DisplayName</h3>
-        <h4 class="card-text">@CardModel.JobTitle</h4>
-        <h5 class="card-text"><small class="text-muted">@CardModel.WebsiteUrl</small></h5>
+        <h3 style="color: black;">@CardModel.DisplayName</h3>
+        <h4 style="color: #5E5B67;">@CardModel.JobTitle</h4>
+        <div class="empty-box"></div>
+        <h4 style="color: #322F40;">@CardModel.WebsiteUrl</h4> 
     </div>
 </div>
 

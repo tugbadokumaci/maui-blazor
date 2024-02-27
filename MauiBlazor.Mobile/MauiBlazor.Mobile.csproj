@@ -94,10 +94,10 @@
       <None Remove="Resources\Images\saved.png" />
       <None Remove="Resources\Images\home_full.png" />
       <None Remove="Resources\Images\saved_full.png" />
-      <None Remove="Resources\Images\share.png" />
-      <None Remove="Resources\Images\back.png" />
       <None Remove="Resources\Images\scan.png" />
       <None Remove="Resources\Images\sample_capture.png" />
+      <None Remove="Constants\" />
+      <None Remove="Resources\Images\share.png" />
     </ItemGroup>
     <ItemGroup>
       <BundleResource Include="Resources\Fonts\Inter-Black.ttf" />
@@ -121,15 +121,15 @@
       <BundleResource Include="Resources\Images\saved.png" />
       <BundleResource Include="Resources\Images\home_full.png" />
       <BundleResource Include="Resources\Images\saved_full.png" />
-      <BundleResource Include="Resources\Images\share.png" />
-      <BundleResource Include="Resources\Images\back.png" />
       <BundleResource Include="Resources\Images\scan.png" />
       <BundleResource Include="Resources\Images\sample_capture.png" />
+      <BundleResource Include="Resources\Images\share.png" />
     </ItemGroup>
     <ItemGroup>
       <Folder Include="Services\" />
       <Folder Include="MauiPages\" />
       <Folder Include="wwwroot\Images\" />
+      <Folder Include="Constants\" />
     </ItemGroup>
     <ItemGroup>
       <Compile Update="Services\ICardService.cs">

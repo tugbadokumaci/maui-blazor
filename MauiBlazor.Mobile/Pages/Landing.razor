@@ -1,0 +1,54 @@
+﻿@page "/landing"
+
+@inherits LayoutComponentBase
+@inject NavigationManager NavigationManager
+
+<div class="page">
+    <div class="welcome-container">
+        <h1>Welcome to My App</h1>
+        <img src="Images/welcome-image.jpg" alt="Welcome Image" />
+        <div class="buttons-container">
+            <Button Class="button-primary" OnClick="@(() => NavigationManager.NavigateTo("/"))">Get Started Now</Button>
+            <Button Class="button-secondary" OnClick="@(() => NavigationManager.NavigateTo("/learn-more"))">Learn How It Works</Button>
+        </div>
+    </div>
+
+    <CarouselView ItemsSource="@images" SelectedIndex="@selectedIndex" IsVisible="@showCarousel">
+
+        <CarouselViewItem>
+            <img src="@images[0]" alt="Image 1" />
+            <IndicatorView />
+        </CarouselViewItem>
+
+        <CarouselViewItem>
+            <img src="@images[1]" alt="Image 2" />
+            <IndicatorView />
+        </CarouselViewItem>
+
+        <CarouselViewItem>
+            <img src="@images[2]" alt="Image 3" />
+            <IndicatorView />
+        </CarouselViewItem>
+
+    </CarouselView>
+</div>
+
+@code {
+    private string[] images = new string[] {
+    "Images/image1.jpg",
+    "Images/image2.jpg",
+    "Images/image3.jpg"
+  };
+
+    private int selectedIndex = 0;
+    private bool showCarousel = false;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await Task.Delay(2000); // 2 saniye sonra CarouselView'u göster
+            showCarousel = true;
+        }
+    }
+}

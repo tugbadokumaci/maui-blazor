@@ -32,5 +32,9 @@
 	<false/>
 	<key>NSCameraUsageDescription</key>
 	<true/>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>This app needs access to the photo gallery to save photos and videos.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app needs access to the photo gallery to save photos and videos.</string>
 </dict>
 </plist>

@@ -11,6 +11,7 @@
 @using MauiBlazor.Mobile.Data;
 @using CommunityToolkit.Maui.Core;
 @using MauiBlazor.Mobile.Services;
+@using MauiBlazor.Mobile.Constants;
 
 @using MauiPopup;
 
@@ -32,73 +33,100 @@
         font-weight: bold;
         color: black;
     }
+
+    .toolbar {
+        color: white; /* Yazı rengi */
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px 10px;
+        height: 50px; /* Toolbar yüksekliği */
+    }
+
+    
+    .page-title {
+        font-size: 24px; /* Sayfa başlık font boyutu */
+        color: #322F40;
+        font-weight: bold;
+    }
+
+    .frame {
+        background-color: white;
+        border-radius: 22px;
+        padding: 20px; /* Add padding as needed */
+    }
 </style>
 
 @if (pageStatus == DetailPageStatus.EditStatus)
 {
-    <img src="Images/user.png" height="45" width="45" />
-    <h2>@cardModel.DisplayName</h2>
-    <h3>@cardModel.JobTitle</h3>
-
-    <div class="hstack gap-3">
-        <Button style="background-color: #fff; color:black;" @onclick="OpenDisplayPagePopup">Show QR</Button>
-        <Button style="background-color: #fff; color:black;" @onclick="() => Emit(DetailPageStatus.EditStatus)" disabled>Edit</Button>
-
-        <Button style="background-color: #FFBEBE; color: #FF0000" @onclick="DeleteButtonClicked">Delete</Button>
-
-    </div>
 
     <EditForm Model="@cardModel" OnValidSubmit="EditButtonClicked">
-        <div class="column">
-            <h5>Phone</h5>
-            <InputText @bind-Value="@cardModel.Phone" />
 
-            <h5>Mail</h5>
-            <InputText @bind-Value="@cardModel.Mail" />
+        <div class="toolbar">
+            <a onclick="NavigationManager.Uri.NavigateTo(_pageState.PreviousPage())"><h5 style="color: #FF0000;">Delete</h5></a>
 
-            <h5>Website Address</h5>
-            <InputText @bind-Value="@cardModel.WebsiteUrl" />
-
-            <h5>Address</h5>
-
-            <InputText @bind-Value="@cardModel.Address" />
+            <h2 class="page-title">Card Detail</h2>
+            <textbutton type="submit">
+                <h5 style="color: black;">Done</h5>
+            </textbutton>
         </div>
-        <button type="submit">Save</button>
+        <div style="text-align: center;">
 
-    </EditForm>
+            <img src="Images/user.png" height="45" width="45" style="margin: 15px 0;" />
+            <h2>@cardModel.DisplayName</h2>
+            <h3>@cardModel.JobTitle</h3>
+        </div>
 
+        <div class="hstack gap-3 d-flex justify-content-center" style="margin: 15px 0;">
+            <Button style="background-color: #fff; color:black;" @onclick="OpenDisplayPagePopup">Show QR</Button>
+            <Button style="background-color: #fff; color:black;" @onclick="() => Emit(DetailPageStatus.EditStatus)" disabled>Edit</Button>
 
+            <Button style="background-color: #FFBEBE; color: #FF0000" @onclick="DeleteButtonClicked">Delete</Button>
 
-    <div class="frame" style="background-color:#fff;">
+        </div>
+        <div class="frame">
 
-            <div class="vstack-gap-3">
-                <h3>Phone</h3>
-                <input value="@cardModel.Phone" type="text" />
+            <div class="column">
+                <h5>Phone</h5>
+                <InputText @bind-Value="@cardModel.Phone" />
 
-                <h3>Mail</h3>
-                <input value="@cardModel.Mail" type="text" />
+                <h5>Mail</h5>
+                <InputText @bind-Value="@cardModel.Mail" />
 
-                <h3>Address</h3>
-                <input value="@cardModel.Address" type="text" />
+                <h5>Website Address</h5>
+                <InputText @bind-Value="@cardModel.WebsiteUrl" />
 
+                <h5>Address</h5>
+
+                <InputText @bind-Value="@cardModel.Address" />
             </div>
-        </div>
+            @*<button type="submit">Save</button>*@
 
-    <EditForm Model="@cardModel" OnValidSubmit="EditButtonClicked">
-        <input type="text" value="@cardModel.DisplayName" />
-        <button type="submit">Save</button>
+        </div>
     </EditForm>
 
-    <Button>Save</Button>
+
 
 }
 else if (pageStatus == DetailPageStatus.CardDetailStatus)
 {
-    <img src="Images/user.png" height="45" width="45" />
-    <h2>@cardModel.DisplayName</h2>
-    <h3>@cardModel.JobTitle</h3>
 
-    <div class="hstack gap-3">
+    <div class="toolbar">
+        <a onclick="NavigationManager.Uri.NavigateTo(_pageState.PreviousPage())"><img class="left-icon" width="45px;" height="45px;" src="Images/back.png" /></a>
+
+        <h2 class="page-title">Card Detail</h2>
+        <a onclick="@ShareUriAsync"><img class="right-icon" width="30px;" height="30px;" src="Images/share.png" /></a>
+    </div>
+
+
+    <div style="text-align: center;">
+
+        <img src="Images/user.png" height="45" width="45" style="margin: 15px 0;" />
+        <h2>@cardModel.DisplayName</h2>
+        <h3>@cardModel.JobTitle</h3>
+    </div>
+
+    <div class="hstack gap-3 d-flex justify-content-center" style="margin: 15px 0;">
         <Button style="background-color: #fff; color:black;" @onclick="() => Emit(DetailPageStatus.ShowQRStatus)">Show QR</Button>
         <Button style="background-color: #fff; color:black;" @onclick="() => Emit(DetailPageStatus.EditStatus)">Edit</Button>
         <Button style="background-color: #FFBEBE; color: #FF0000" @onclick="DeleteButtonClicked">Delete</Button>
@@ -122,93 +150,10 @@ else if (pageStatus == DetailPageStatus.CardDetailStatus)
 
         </div>
     </div>
-
 }
 
 
 @code{
-    //string InputText { get; set; }
-    //string QRCodeStr { get; set; }
-
-    //public void GenerateQRCode()
-    //{
-
-    //    QRCodeStr = "";
-    //    if (!string.IsNullOrEmpty(InputText))
-    //    {
-    //        using (MemoryStream ms = new MemoryStream())
-    //        {
-    //            QRCodeGenerator qrGenerator = new QRCodeGenerator();
-    //            QRCodeData qrCodeData = qrGenerator.CreateQrCode(InputText, QRCodeGenerator.ECCLevel.L);
-    //            PngByteQRCode qRCode = new PngByteQRCode(qrCodeData);
-    //            using (BitMap bitMap )
-
-
-    //        }
-    //    }
-    //}
-
-    //string qrDetected = string.Empty;
-
-    //protected override Task OnInitializedAsync()
-    //{
-    //    qrCodeReader.QRCompletedEvent += new QRCodeService.QRCompleted(QRDetected);
-    //    return base.OnInitializedAsync();
-    //}
-
-
-
-    //public async Task QRDetected(string value)
-    //{
-    //    qrDetected = value;
-    //    StateHasChanged();
-    //}
-
-    //async Task Scan()
-    //{
-    //    await qrCodeReader.Scan();
-    //}
-
-    //async Task Stop()
-    //{
-    //    await qrCodeReader.Stop();
-    //}
-
-
-    //[Inject] IJSRuntime JSRuntime { get; set; }
-
-    //private string inputText;
-    //private string qrImageSource = string.Empty;
-
-
-    //protected override void OnInitialized()
-    //{
-    //    // Ensure QRCoder library is available in the BlazorWebView
-    //    JSRuntime.InvokeVoidAsync("initQRCoder");
-    //}
-
-    //private async Task GenerateQRCode()
-    //{
-    //    QRCodeGenerator qrGenerator = new QRCodeGenerator();
-    //    QRCodeData qrCodeData = qrGenerator.CreateQrCode(inputText, QRCodeGenerator.ECCLevel.L);
-    //    PngByteQRCode qRCode = new PngByteQRCode(qrCodeData);
-    //    byte[] qrCodeBytes = qRCode.GetGraphic(20);
-
-    //    // Convert byte array to base64-encoded string for image source
-    //    qrImageSource = Convert.ToBase64String(qrCodeBytes);
-    //    StateHasChanged();
-    //}
-
-    //private void OnGenerateClicked(object sender, EventArgs e)
-    //{
-    //    Bitmap qrCodeImage;
-    //    QRCodeGenerator qrGenerator = new QRCodeGenerator();
-    //    QRCodeData qrCodeData = qrGenerator.CreateQrCode("tugba", QRCodeGenerator.ECCLevel.L);
-    //    PngByteQRCode qRCode = new PngByteQRCode(qrCodeData);
-    //    byte[] qrCodeBytes = qRCode.GetGraphic(20);
-    //    QrCodeImage.Source = ImageSource.FromStream(() => new MemoryStream(qrCodeBytes));
-    //}
-
 
 
     protected bool IsEditEnabled { get; set; }
@@ -303,6 +248,43 @@ else if (pageStatus == DetailPageStatus.CardDetailStatus)
 
         PopupAction.DisplayPopup(new MauiBlazor.Mobile.MauiPages.DisplayPage());
 
+    }
+
+
+    public async Task ShareUriAsync()
+    {
+        if (Microsoft.Maui.ApplicationModel.DataTransfer.Share.Default != null)
+        {
+            // Deeplinking to open the app on store to download first
+            string shareUri = AppStoreConstants.AppLink;
+
+            await ShareUri(Microsoft.Maui.ApplicationModel.DataTransfer.Share.Default, shareUri);
+        }
+    }
+
+    public async Task ShareUri(IShare share, string shareUri)
+    {
+        if (share == null)
+        {
+            // Handle the case when share service is not available
+            // You can display an error message or log a warning
+            return;
+        }
+
+        try
+        {
+            await share.RequestAsync(new ShareTextRequest
+            {
+                Uri = shareUri,
+                Title = $"Check out {cardModel.DisplayName}'s Card! Click to view (or download the app if needed).",
+            });
+        }
+        catch (Exception ex)
+        {
+            // Handle any exceptions that might occur during sharing
+            // You can log the exception or display an error message to the user
+            Console.WriteLine($"Error occurred while sharing: {ex.Message}");
+        }
     }
 
 }
