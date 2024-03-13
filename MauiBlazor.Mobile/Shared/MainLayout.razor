@@ -1,4 +1,6 @@
 ﻿@inherits LayoutComponentBase
+@inject NavigationManager NavigationManager
+
 <div class="page">
     @*<div class="sidebar">
             <NavMenu />
@@ -13,23 +15,37 @@
             @Body
         </article>
     </main>
-    <!-- Bottom navigation bar -->
-    <footer class="bottom-navbar">
-        <a href="/" class="nav-item">
-            <img src="Images/home_small.png" alt="Home" class="nav-icon" />
-            <br />
-            Home
-        </a>
-        <a href="/scan" class="nav-item" style="color: #C31C4B;">
-            <img src="Images/scan.png" alt="Scan" class="nav-icon" />
-            <br />
-            Scan
-        </a>
-        <a href="/saved" class="nav-item">
-            <img src="Images/saved.png" alt="Saved" class="nav-icon" />
-            <br />
-            Saved
-        </a>
-    </footer>
+
+    @if (CurrentPage != "/")
+    {
+        <!-- Bottom navigation bar -->
+        <footer class="bottom-navbar">
+            <a href="/anasayfa" class="nav-item">
+                <img src="Images/home_small.png" alt="Home" class="nav-icon" />
+                <br />
+                Home
+            </a>
+            <a href="/scan" class="nav-item" style="color: #C31C4B;">
+                <img src="Images/scan.png" alt="Scan" class="nav-icon" />
+                <br />
+                Scan
+            </a>
+            <a href="/saved" class="nav-item">
+                <img src="Images/saved.png" alt="Saved" class="nav-icon" />
+                <br />
+                Saved
+            </a>
+        </footer>
+    }
+
 </div>
 
+@code {
+    private string CurrentPage { get; set; }
+
+    protected override void OnInitialized()
+    {
+        CurrentPage = NavigationManager.Uri;
+        base.OnInitialized();
+    }
+}

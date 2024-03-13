@@ -98,6 +98,12 @@
       <None Remove="Resources\Images\sample_capture.png" />
       <None Remove="Constants\" />
       <None Remove="Resources\Images\share.png" />
+      <None Remove="Resources\Images\greeting 1.png" />
+      <None Remove="Resources\Images\profile_data 1.png" />
+      <None Remove="Resources\Images\stay connected 1 %281%29.png" />
+      <None Remove="Resources\Images\greeting 1 %281%29.png" />
+      <None Remove="Resources\Images\profile_data 1 %281%29.png" />
+      <None Remove="Resources\Images\350.png" />
     </ItemGroup>
     <ItemGroup>
       <BundleResource Include="Resources\Fonts\Inter-Black.ttf" />
@@ -124,6 +130,14 @@
       <BundleResource Include="Resources\Images\scan.png" />
       <BundleResource Include="Resources\Images\sample_capture.png" />
       <BundleResource Include="Resources\Images\share.png" />
+      <BundleResource Include="Resources\Images\350.png" />
+      <BundleResource Include="wwwroot\Images\carousel1.png" />
+      <BundleResource Include="wwwroot\Images\c1.svg" />
+      <BundleResource Include="wwwroot\Images\carousel2.png" />
+      <BundleResource Include="wwwroot\Images\car2.svg" />
+      <BundleResource Include="wwwroot\Images\carousel3.png" />
+      <BundleResource Include="wwwroot\Images\car3.svg" />
+      <BundleResource Include="wwwroot\Images\app_icon.png" />
     </ItemGroup>
     <ItemGroup>
       <Folder Include="Services\" />
@@ -145,6 +159,13 @@
     <ItemGroup>
       <Content Remove="Resources\Raw\loading.json" />
       <Content Remove="wwwroot\Images\" />
+      <Content Remove="wwwroot\Images\car1.png" />
+      <Content Remove="wwwroot\Images\car1.svg" />
+      <Content Remove="wwwroot\Images\car2.png" />
+      <Content Remove="wwwroot\Images\car2.svg" />
+      <Content Remove="wwwroot\Images\car3.png" />
+      <Content Remove="wwwroot\Images\car3.svg" />
+      <Content Remove="wwwroot\Images\app_logo.png" />
     </ItemGroup>
     <ItemGroup>
         <BundleResource Include="wwwroot\Images\user.png" />
@@ -166,5 +187,11 @@
         <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       </None>
+    </ItemGroup>
+    <ItemGroup>
+      <RazorComponent Update="Shared\Button.razor">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </RazorComponent>
     </ItemGroup>
 </Project>
